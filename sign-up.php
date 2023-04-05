@@ -48,6 +48,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
       addUser($username, $password, $_POST['firstName'], $_POST['lastName'], $_POST['bio']);
       $_SESSION['username'] = $username;
       header('Location: browse.php');
+    } else {
+      ?><h3 class='text-center text-danger pt-2'>An Account with that email already exists.</h3><?php
     }
   } 
 }

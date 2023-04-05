@@ -33,8 +33,11 @@
     if ($result["count(*)"] != 0){
       if (password_verify($password, $passresult["password"])){
         return True;
+      } else {
+        ?><h3 class='text-center text-danger pt-2'>Incorrect credentials!</h3><?php
       }
     } else {
+      ?><h3 class='text-center text-danger pt-2'>Incorrect credentials!</h3><?php
       return False;
     }
   }
