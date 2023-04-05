@@ -1,0 +1,2 @@
+http://docs.php.net/manual/en/function.password-verify.php
+https://www.php.net/manual/en/function.password-hash.php
