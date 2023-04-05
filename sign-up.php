@@ -10,35 +10,8 @@
 
 <?php 
 require("connect-db.php");
+require("sql-queries.php");
 session_start();
-
-function validUser($username){
-  global $db;
-  $query = "select count(*) from users where user_email=:user_email";
-  $statement = $db->prepare($query);
-  $statement->bindValue(':user_email', $username);
-  $statement->execute();
-  $result = $statement->fetch();
-  $statement->closeCursor();
-  if ($result["count(*)"] != 0){
-    return False;
-  } else {
-    return True;}
-}
-
-function addUser($username, $password, $firstName, $lastName, $bio){
-  // now that we've checked the emaild doesn't already exist, create account
-  global $db;
-  $query = "insert into users values (:user_email, :first_name, :last_name, :bio, :password)";
-  $statement = $db->prepare($query);
-  $statement->bindValue(':user_email', $username);
-  $statement->bindValue(':first_name', $firstName);
-  $statement->bindValue(':last_name', $lastName);
-  $statement->bindValue(':password', $password);
-  $statement->bindValue(':bio', $bio);
-  $statement->execute();
-  $statement->closeCursor();
-}
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST'){
   if (!empty($_POST['SignUpBtn'])){
