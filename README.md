@@ -9,6 +9,8 @@
     - make sure your IP address is listed under Authorized Networks
     - this might have to be completed each time bc IP addresses change but idk
 3. Fill in the database info in `connect-db.php` using secrets stored in GCP SecreteManager
+4. run `git update-index --assume-unchanged connect-db.php`
+    - important so that database info never gets committed (only need to run command once)
 4. Start XAMPP Apache Web Server
     - hit the "Manager Servers" tab at the top
     - make sure a copy of the project folder is in the XAMPP htdocs folder
