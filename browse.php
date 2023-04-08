@@ -69,7 +69,7 @@
             <a class="nav-link text-danger text-dark" href="browse.php">Home</a>
           </div>
           <div class="col text-start">
-            <a class="nav-link text-danger text-dark" href="profile.php"><?php echo $firstName?>'s Page</a>
+            <a class="nav-link text-danger text-dark" href="profile.php">My Profile</a>
           </div>
         </div>
       </div>
@@ -77,6 +77,7 @@
   </nav>
 
   <!-- body content -->
+
   <br>
 
   <div class='container'>
@@ -89,4 +90,5 @@
   <div class='container' style='overflow-y: scroll; height: 70vh;'>
     <?php echo $guideHTML?>
   </div>
+
 </body>
