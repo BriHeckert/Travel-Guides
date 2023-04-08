@@ -17,6 +17,42 @@
   }
 
   $firstName = getName($_SESSION['username']);
+
+  // Retrieve all guides
+  global $db;
+  $queryAllGuides = 'SELECT * FROM guides;';
+  $statement = $db->prepare($queryAllGuides);
+  $statement->execute();
+  $allGuides = $statement->fetchAll();
+  $statement->closeCursor();
+
+  // Format guides table
+  $guideHTML = "
+  <table class='table table-striped table-hover table-bordered'>
+    <tr>
+      <th>Guide</th>
+      <th>Description</th>
+      <th>Date Created</th>
+    </tr>
+  ";
+
+  for ($i = 0; $i < count($allGuides); $i++) {
+    $currentGuide = $allGuides[$i];
+    $title = $currentGuide['title'];
+    $desc = $currentGuide['description'];
+    $date = $currentGuide['date'];
+    $newRow = "
+    <tr>
+      <td>$title</td>
+      <td>$desc</td>
+      <td>$date</td>
+    </tr>
+    ";
+
+    $guideHTML = $guideHTML . $newRow;
+  }
+
+  $guideHTML = $guideHTML . "</table>"
   ?>
 
 <body>
@@ -24,7 +60,7 @@
   <nav class="navbar navbar-expand-lg navbar-light justify-content-between" style="background-color: #e3f2fd;">
     <div class="container">
       <div class="col">
-        <a class="navbar-brand">TravelGuides</a>
+        <a class="navbar-brand">Travel Buddy</a>
       </div>
       <div class="col">
         <form class="form-inline my-2 my-lg-0">
@@ -48,5 +84,16 @@
   </nav>
 
   <!-- body content -->
-    <p> successful login welcome to browse <?php echo $_SESSION["username"] ?></p>
+  <br>
+
+  <div class='container'>
+    <h1>Welcome, <?php echo $firstName?>!</h1>
+    <h3>Check out our available guides:</h3>
+  </div>
+  
+  <br>
+
+  <div class='container' style='overflow-y: scroll; height: 70vh;'>
+    <?php echo $guideHTML?>
+  </div>
 </body>
