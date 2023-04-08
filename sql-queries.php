@@ -38,4 +38,15 @@ function addUser($username, $password, $firstName, $lastName, $bio){
     $statement->closeCursor();
 }
 
+function getGuides() { // Eventually will add filters as params
+  global $db;
+  $queryAllGuides = 'SELECT * FROM guides;';
+  $statement = $db->prepare($queryAllGuides);
+  $statement->execute();
+  $allGuides = $statement->fetchAll();
+  $statement->closeCursor();
+
+  return $allGuides;
+}
+
 ?>
