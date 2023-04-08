@@ -11,6 +11,28 @@ function getName($username){
     return $result["first_name"];
 }
 
+function getLastName($username){
+  global $db;
+  $query = "select last_name from users where user_email=:user_email";
+  $statement = $db->prepare($query);
+  $statement->bindValue(':user_email', $username);
+  $statement->execute();
+  $result = $statement->fetch();
+  $statement->closeCursor();
+  return $result["last_name"];
+}
+
+function getBio($username){
+  global $db;
+  $query = "select bio from users where user_email=:user_email";
+  $statement = $db->prepare($query);
+  $statement->bindValue(':user_email', $username);
+  $statement->execute();
+  $result = $statement->fetch();
+  $statement->closeCursor();
+  return $result["bio"];
+}
+
 function validUser($username){
     global $db;
     $query = "select count(*) from users where user_email=:user_email";
@@ -36,6 +58,18 @@ function addUser($username, $password, $firstName, $lastName, $bio){
     $statement->bindValue(':bio', $bio);
     $statement->execute();
     $statement->closeCursor();
+}
+
+function updateProfile($username, $firstName, $lastName, $bio){
+  global $db;
+  $query = "update users set first_name=:firstName, last_name=:lastName, bio=:bio where user_email=:username";
+  $statement = $db->prepare($query);
+  $statement->bindValue(':username', $username);
+  $statement->bindValue(':firstName', $firstName);
+  $statement->bindValue(':lastName', $lastName);
+  $statement->bindValue(':bio', $bio);
+  $statement->execute();
+  $statement->closeCursor();
 }
 
 ?>

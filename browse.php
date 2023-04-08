@@ -40,7 +40,7 @@
             <a class="nav-link text-danger text-dark" href="browse.php">Home</a>
           </div>
           <div class="col text-start">
-            <a class="nav-link text-danger text-dark" href="profile.php"><?php echo $firstName?>'s Page</a>
+            <a class="nav-link text-danger text-dark" href="profile.php">My Profile</a>
           </div>
         </div>
       </div>
@@ -49,4 +49,6 @@
 
   <!-- body content -->
     <p> successful login welcome to browse <?php echo $_SESSION["username"] ?></p>
+
+
 </body>

@@ -5,7 +5,7 @@
     <meta name="description" content="Profile">  
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link rel="stylesheet" href="styles.css" type="text/css">
-    <title>Profile</title>
+    <title>Edit Profile</title>
   </head>
 
   <?php 
@@ -16,9 +16,15 @@
     header('Location: index.php');
   }
 
-  $firstName = getName($_SESSION['username']);
-  $lastName = getLastName($_SESSION['username']);
-  $bio = getBio($_SESSION['username']);
+  $username = $_SESSION['username'];
+
+  if ($_SERVER['REQUEST_METHOD'] == 'POST'){
+    if (!empty($_POST['editProfile'])){
+        updateProfile($username, $_POST['newFirstName'], $_POST['newLastName'], $_POST['newBio']);
+        header('Location: profile.php');
+    } 
+  }
+
   ?>
 
 <body>
@@ -49,18 +55,25 @@
     </div>
   </nav>
 
-  <!-- body content -->
-    <div class="container-fluid text-center">
-      <h3><?php echo $firstName?> <?php echo $lastName?></h2>
-      <p><?php echo $bio?></p>
+  <div class="containter-fluid text-center">
+    <h1>Edit Profile</h1>
+    <div>
+        <form action="<?php $_SERVER['PHP_SELF'] ?>" method="post">
+        <div class="form-group">
+            <label for="newFirstName">First Name:</label>
+            <input type="text" class="form-control" id="newFirstName" placeholder="Update your first name here" name="newFirstName" required>
+        </div>
+        <div class="form-group">
+            <label for="newLastName">Last Name:</label>
+            <input type="text" class="form-control" id="newLastName" placeholder="Update your last name here" name="newLastName" required>
+        </div>
+        <div class="form-group">
+            <label for="newBio">Bio:</label>
+            <textarea class="form-control" id="newBio" rows="3" name="newBio" placeholder="Update your bio here" required></textarea>
+        </div>
+        <div>
+            <input type="submit" class="btn btn-primary" name="editProfile" value="Update"></input>
+        </div>
     </div>
-    <div class="container-fluid text-center">
-      <a href="edit-profile.php" class="btn btn-info" role="button">Edit Profile</a>
-    </div>
-    <div class="container-fluid text-center">
-      <div class="btn-group" role="group" aria-label="Profile guides toggle">
-        <button type="button" class="btn btn-primary">My Guides</button>
-        <button type="button" class="btn btn-primary">Saved Guides</button>
-      </div>
-    </div>
+  </div>
 </body>
