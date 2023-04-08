@@ -63,7 +63,7 @@
         <div class='col mp-5'>
           <div class="container p-4">
             <!-- <img src="plane.jpeg" class="img-fluid" alt="plane window during sunset"> -->
-            <h1 class="display-1 font-bold">TravelGuides</h1>
+            <h1 class="display-1 font-bold">Travel Buddy</h1>
             <p class="lead">Featuring guides by real people for cities across the US</p>
           </div>
         </div>
