@@ -70,6 +70,7 @@ function updateProfile($username, $firstName, $lastName, $bio){
   $statement->bindValue(':bio', $bio);
   $statement->execute();
   $statement->closeCursor();
+}
   
 function getGuides() { // Eventually will add filters as params
   global $db;
