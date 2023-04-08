@@ -17,14 +17,7 @@
   }
 
   $firstName = getName($_SESSION['username']);
-
-  // Retrieve all guides
-  global $db;
-  $queryAllGuides = 'SELECT * FROM guides;';
-  $statement = $db->prepare($queryAllGuides);
-  $statement->execute();
-  $allGuides = $statement->fetchAll();
-  $statement->closeCursor();
+  $allGuides = getGuides();
 
   // Format guides table
   $guideHTML = "
