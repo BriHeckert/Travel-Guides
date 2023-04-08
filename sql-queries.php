@@ -70,6 +70,16 @@ function updateProfile($username, $firstName, $lastName, $bio){
   $statement->bindValue(':bio', $bio);
   $statement->execute();
   $statement->closeCursor();
+  
+function getGuides() { // Eventually will add filters as params
+  global $db;
+  $queryAllGuides = 'SELECT * FROM guides;';
+  $statement = $db->prepare($queryAllGuides);
+  $statement->execute();
+  $allGuides = $statement->fetchAll();
+  $statement->closeCursor();
+
+  return $allGuides;
 }
 
 ?>
