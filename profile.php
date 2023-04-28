@@ -33,7 +33,7 @@
   ";
 
   if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    if (!empty($_POST['actionBtn']) && ($_POST['actionBtn'] == "My Guides")) {
+    if (!empty($_POST['actionBtn']) && ($_POST['actionBtn']) == "My Guides") {
       for ($i = 0; $i < count($myGuides); $i++) {
         $currentGuide = $myGuides[$i];
         $title = $currentGuide['title'];
@@ -50,7 +50,7 @@
       }
       $guidesHTML = $guidesHTML . "</table>"
     }
-    else if (!empty($_POST['actionBtn']) && ($_POST['actionBtn'] == "Saved Guides")) {
+    else if (!empty($_POST['actionBtn']) && ($_POST['actionBtn']) == "Saved Guides") {
       for ($i = 0; $i < count($savedGuides); $i++) {
         $currentGuide = $savedGuides[$i];
         $title = $currentGuide['title'];
