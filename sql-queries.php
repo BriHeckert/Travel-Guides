@@ -1,14 +1,14 @@
 <?php
 
 function getName($username){
-    global $db;
-    $query = "select first_name from users where user_email=:user_email";
-    $statement = $db->prepare($query);
-    $statement->bindValue(':user_email', $username);
-    $statement->execute();
-    $result = $statement->fetch();
-    $statement->closeCursor();
-    return $result["first_name"];
+  global $db;
+  $query = "select first_name from users where user_email=:user_email";
+  $statement = $db->prepare($query);
+  $statement->bindValue(':user_email', $username);
+  $statement->execute();
+  $result = $statement->fetch();
+  $statement->closeCursor();
+  return $result["first_name"];
 }
 
 function getLastName($username){
@@ -74,25 +74,43 @@ function updateProfile($username, $firstName, $lastName, $bio){
   
 function getGuides() { // Eventually will add filters as params
   global $db;
-  $queryAllGuides = 'SELECT * FROM guides;';
-  $statement = $db->prepare($queryAllGuides);
+  $query = 'SELECT * FROM guides;';
+  $statement = $db->prepare($query);
   $statement->execute();
   $allGuides = $statement->fetchAll();
   $statement->closeCursor();
-
   return $allGuides;
 }
 
 function followUser($username, $friendname) {
-
+  global $db;
+  $query = 'insert into following values (:user_email, :followed_user_email)';
 }
 
-function unfollowUser ($username, $friendname) {
-
+function unfollowUser($username, $friendname) {
+  glpbal $db;
+  $query = 'delete from following'
 }
 
-function displayUserGuides ($username) {
-
+function getUserGuides($username) {
+  global $db;
+  $query = 'SELECT * FROM guides WHERE user_email=:username;';
+  $statement = $db->prepare($query);
+  $statement->bindValue(':username', $username);
+  $statement->execute();
+  $userGuides = $statement->fetchAll();
+  $statement->closeCursor();
+  return $userGuides;
 }
 
+function getSavedGuides($username) {
+  global $db;
+  $query = 'SELECT * FROM user_saved WHERE user_email=:username;';
+  $statement = $db->prepare($query);
+  $statement->bindValue(':username', $username);
+  $statement->execute();
+  $userGuides = $statement->fetchAll();
+  $statement->closeCursor();
+  return $userGuides
+}
 ?>
