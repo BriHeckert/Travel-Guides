@@ -70,6 +70,7 @@ function updateProfile($username, $firstName, $lastName, $bio){
   $statement->bindValue(':bio', $bio);
   $statement->execute();
   $statement->closeCursor();
+}
   
 function getGuides() { // Eventually will add filters as params
   global $db;
@@ -80,6 +81,18 @@ function getGuides() { // Eventually will add filters as params
   $statement->closeCursor();
 
   return $allGuides;
+}
+
+function followUser($username, $friendname) {
+
+}
+
+function unfollowUser ($username, $friendname) {
+
+}
+
+function displayUserGuides ($username) {
+
 }
 
 ?>
