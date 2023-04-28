@@ -82,14 +82,54 @@ function getGuides() { // Eventually will add filters as params
   return $allGuides;
 }
 
-function followUser($username, $friendname) {
+function followUserpt1($username, $friendName) {
   global $db;
   $query = 'insert into following values (:user_email, :followed_user_email)';
+  $statement = $db->prepare($query);
+  $statement->bindValue(':user_email', $username);
+  $statement->bindValue(':followed_user_email', $friendName);
+  $statement->execute();
+  $statement->closeCursor();
 }
 
-function unfollowUser($username, $friendname) {
+function followUserpt2($friendName, $username) {
+  global $db;
+  $query = 'insert into followers values (:user_email, :follower_user_email)';
+  $statement = $db->prepare($query);
+  $statement->bindValue(':user_email', $friendName);
+  $statement->bindValue(':follower_user_email', $username);
+  $statement->execute();
+  $statement->closeCursor();
+}
+
+function unfollowUserpt1($username, $friendName) {
   glpbal $db;
-  $query = 'delete from following'
+  $query = 'delete from following where user_email=:username and followed_user_email=:friendName';
+  $statement = $db->prepare($query);
+  $statement->bindValue(':username', $username);
+  $statement->bindValue(':friendName', $friendName);
+  $statement->execute();
+  $statement->closeCursor();
+}
+
+function unfollowUserpt2($friendName, $username) {
+  global $db;
+  $query = 'delete from followers where user_email=:friendName and follower_user_email=:username';
+  $statement = $db->prepare($query);
+  $statement->bindValue(':friendName', $friendName);
+  $statement->bindValue(':username', $username);
+  $statement->execute();
+  $statement->closeCursor();
+}
+
+function getifFollowing($username) {
+  global $db;
+  $query = 'select followed_user_email from following where user_email=:username';
+  $statement->bindValue(':username', $username);
+  $statement->execute();
+  $following = $statement->fetchAll();
+  $statement->closeCursor();
+  return $following;
 }
 
 function getUserGuides($username) {
@@ -109,8 +149,8 @@ function getSavedGuides($username) {
   $statement = $db->prepare($query);
   $statement->bindValue(':username', $username);
   $statement->execute();
-  $userGuides = $statement->fetchAll();
+  $savedGuides = $statement->fetchAll();
   $statement->closeCursor();
-  return $userGuides
+  return $savedGuides
 }
 ?>

@@ -113,6 +113,6 @@
       </div>
     </div>
     <div class='container' style='overflow-y: scroll; height: 70vh;'>
-      <?php echo $guideHTML?>
+      <?php echo $guidesHTML?>
     </div>
 </body>
