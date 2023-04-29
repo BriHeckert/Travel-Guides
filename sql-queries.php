@@ -103,7 +103,7 @@ function followUserpt2($friendName, $username) {
 }
 
 function unfollowUserpt1($username, $friendName) {
-  glpbal $db;
+  global $db;
   $query = 'delete from following where user_email=:username and followed_user_email=:friendName';
   $statement = $db->prepare($query);
   $statement->bindValue(':username', $username);
@@ -151,6 +151,6 @@ function getSavedGuides($username) {
   $statement->execute();
   $savedGuides = $statement->fetchAll();
   $statement->closeCursor();
-  return $savedGuides
+  return $savedGuides;
 }
 ?>
