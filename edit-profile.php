@@ -32,7 +32,7 @@
   <nav class="navbar navbar-expand-lg navbar-light justify-content-between" style="background-color: #e3f2fd;">
     <div class="container">
       <div class="col">
-        <a class="navbar-brand">TravelGuides</a>
+        <a class="navbar-brand">Travel Buddy</a>
       </div>
       <div class="col">
         <form class="form-inline my-2 my-lg-0">
@@ -56,24 +56,28 @@
   </nav>
 
   <div class="containter-fluid text-center">
-    <h1>Edit Profile</h1>
-    <div>
+    <br>
+    <h2>Edit My Info</h2><br>
+    <div class='container'>
+      <center>
         <form action="<?php $_SERVER['PHP_SELF'] ?>" method="post">
-        <div class="form-group">
-            <label for="newFirstName">First Name:</label>
-            <input type="text" class="form-control" id="newFirstName" placeholder="Update your first name here" name="newFirstName" required>
-        </div>
-        <div class="form-group">
-            <label for="newLastName">Last Name:</label>
-            <input type="text" class="form-control" id="newLastName" placeholder="Update your last name here" name="newLastName" required>
-        </div>
-        <div class="form-group">
-            <label for="newBio">Bio:</label>
-            <textarea class="form-control" id="newBio" rows="3" name="newBio" placeholder="Update your bio here" required></textarea>
-        </div>
-        <div>
+          <div class="form-group">
+            <input type="text" class="form-control" id="newFirstName" placeholder="First name (required)" name="newFirstName" style='width: 20vw; align: center;' required>
+          </div><br>
+          <div class="form-group">
+            <input type="text" class="form-control" id="newLastName" placeholder="Last name (required)" name="newLastName" style='width: 20vw; align: center;' required>
+          </div><br>
+          <div class="form-group">
+            <textarea class="form-control" id="newBio" rows="3" name="newBio" placeholder="New bio (required)" style='width: 50vw; align: center;' required></textarea>
+          </div><br>
+          <div>
             <input type="submit" class="btn btn-primary" name="editProfile" value="Update"></input>
-        </div>
+          </div>
+        </form>
+
+        <a href='profile.php' class='btn btn-danger' style='width: 10vh; align: center'>Cancel</a>
+      </center>
     </div>
   </div>
 </body>
+</html>
