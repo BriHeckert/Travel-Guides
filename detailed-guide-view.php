@@ -86,7 +86,11 @@
   <!-- body content -->
 
   <br>
-  
+
+  <div class='container'>
+  <a href='browse.php' style='color: grey'>< Back to Browse</a>
+  </div>
+
   <br>
 
   <div class='container bg-light border border-info p-3' style='overflow-y: scroll;'>

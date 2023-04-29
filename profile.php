@@ -75,7 +75,7 @@
   <nav class="navbar navbar-expand-lg navbar-light justify-content-between" style="background-color: #e3f2fd;">
     <div class="container">
       <div class="col">
-        <a class="navbar-brand">TravelGuides</a>
+        <a class="navbar-brand">Travel Buddy</a>
       </div>
       <div class="col">
         <form class="form-inline my-2 my-lg-0">
@@ -100,19 +100,21 @@
 
   <!-- body content -->
     <div class="container-fluid text-center">
+      <br>
       <h3><?php echo $firstName?> <?php echo $lastName?></h2>
-      <p><?php echo $bio?></p>
-    </div>
-    <div class="container-fluid text-center">
-      <a href="edit-profile.php" class="btn btn-info" role="button">Edit Profile</a>
-    </div>
-    <div class="container-fluid text-center">
-      <div class="btn-group" role="group" aria-label="Profile guides toggle">
-        <input type="submit" class="btn btn-primary" name="actionBtn" value="My Guides">
-        <input type="submit" class="btn btn-primary" name="actionBtn" value="Saved Guides">
+      <p><b>Bio: </b><?php echo $bio?></p>
+      <div class="container-fluid text-center">
+        <a href="edit-profile.php" class="btn btn-info" role="button">Edit Profile</a>
+      </div><br>
+      <div class="container-fluid text-center">
+        <div class="btn-group" role="group" aria-label="Profile guides toggle">
+          <input type="submit" class="btn btn-primary" name="actionBtn" value="My Guides">
+          <input type="submit" class="btn btn-primary" name="actionBtn" value="Saved Guides">
+        </div>
       </div>
-    </div>
-    <div class='container' style='overflow-y: scroll; height: 70vh;'>
+    </div><br>
+    
+    <div class='container' style='overflow-y: scroll; height: 60vh;'>
       <?php echo $guidesHTML?>
     </div>
 </body>
