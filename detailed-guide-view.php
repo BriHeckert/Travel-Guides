@@ -2,19 +2,11 @@
     <meta charset="UTF-8">  
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="author" content="Brianna Heckert, August Lamb, Alex Walsh">
-    <meta name="description" content="Travel Guides Browse">  
+    <meta name="description" content="Travel Guides Detailed Guide">  
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link rel="stylesheet" href="styles.css" type="text/css">
-    <title>Browse</title>
+    <title>Detailed Guide</title>
   </head>
-
-  <script>
-  function prepareDetailedView($gid){
-    $_SESSION["current-guide"] = $gid;
-    header('Location: detailed-guide-view.php');
-  }
-  </script>
-
 
   <?php 
   require("connect-db.php");
@@ -25,36 +17,42 @@
   }
 
   $firstName = getName($_SESSION['username']);
-  $allGuides = getGuides();
+  $gid = $_GET['gid'];
 
-  // Format guides table
-  $guideHTML = "
-  <table class='table table-striped table-hover table-bordered'>
-    <tr>
-      <th>Guide</th>
-      <th>Description</th>
-      <th>Date Created</th>
-    </tr>
-  ";
+  $guide = getGuideDetails($gid);
+  $activities = getGuideActivities($gid);
 
-  for ($i = 0; $i < count($allGuides); $i++) {
-    $currentGuide = $allGuides[$i];
-    $title = $currentGuide['title'];
-    $desc = $currentGuide['description'];
-    $date = $currentGuide['date'];
-    $gid = $currentGuide['g_id'];
-    $newRow = "
-    <tr>
-      <td onclick='location.href=`detailed-guide-view.php?gid=$gid`'>$title</td>
-      <td onclick='location.href=`detailed-guide-view.php?gid=$gid`'>$desc</td>
-      <td onclick='location.href=`detailed-guide-view.php?gid=$gid`'>$date</td>
-    </tr>
+  $title = $guide['title'];
+  $date = $guide['date'];
+  $description = $guide['description'];
+  $location = $guide['location'];
+  $duration = $guide['duration'];
+  $author = 'Travel Buddy :)';
+  if ($guide['user_email']){
+    $author = getName($guide['user_email']) . " " .getLastName($guide['user_email']);
+  }
+  
+  $activityDisplay = "";
+
+  foreach($activities as $activity){
+    $actTitle = $activity['title'];
+    $actDesc = $activity['description'];
+    $actAddy = $activity['address'];
+    $newCard = "
+      <div class='card'>
+        <div class='card-body'>
+          <h5 class='card-title'>$actTitle</h5>
+          <p class='card-text'>$actAddy</p>
+          <hr/>
+          <p class='card-text'>Description: $actDesc</p>
+        </div>
+      </div>
+      <br>
     ";
 
-    $guideHTML = $guideHTML . $newRow;
-  }
+    $activityDisplay = $activityDisplay . $newCard;
+  };
 
-  $guideHTML = $guideHTML . "</table>";
   ?>
 
 <body>
@@ -62,7 +60,7 @@
   <nav class="navbar navbar-expand-lg navbar-light justify-content-between" style="background-color: #e3f2fd;">
     <div class="container">
       <div class="col">
-        <a class="navbar-brand">Travel Buddy</a>
+        <a class="navbar-brand" href="browse.php">Travel Buddy</a>
       </div>
       <div class="col">
         <form class="form-inline my-2 my-lg-0">
@@ -88,17 +86,23 @@
   <!-- body content -->
 
   <br>
-
-  <div class='container'>
-    <h1>Welcome, <?php echo $firstName?>!</h1>
-    <h3>Check out our available guides:</h3>
-  </div>
   
   <br>
 
-  <div class='container' style='overflow-y: scroll; height: 70vh;'>
-    <?php echo $guideHTML?>
+  <div class='container bg-light border border-info p-3' style='overflow-y: scroll;'>
+    <h4 class='text-end'><?php echo $date?></h3>
+    <h1><?php echo $title?></h1>
+    <p class='fw-bold'><?php echo $location?></p>
+    <p>By: <?php echo $author?></p>
+    <hr/>
+    <div class='pt-4'>
+      <h4>Description:</h4>
+      <p class='pb-2'><?php echo $description?></p>
+    </div>
+    <div>
+      <h4>Activities:</h4>
+        <?php echo $activityDisplay;?>
+    </div>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
 </body>

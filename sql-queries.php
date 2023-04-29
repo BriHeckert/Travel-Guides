@@ -103,7 +103,7 @@ function followUserpt2($friendName, $username) {
 }
 
 function unfollowUserpt1($username, $friendName) {
-  glpbal $db;
+  global $db;
   $query = 'delete from following where user_email=:username and followed_user_email=:friendName';
   $statement = $db->prepare($query);
   $statement->bindValue(':username', $username);
@@ -151,6 +151,40 @@ function getSavedGuides($username) {
   $statement->execute();
   $savedGuides = $statement->fetchAll();
   $statement->closeCursor();
-  return $savedGuides
+  return $savedGuides;
+}
+
+function getGuideDetails($gid) {
+  global $db;
+  $query = 'SELECT * FROM guides WHERE g_id=:gid;';
+  $statement = $db->prepare($query);
+  $statement->bindValue(':gid', $gid);
+  $statement->execute();
+  $guidesDets = $statement->fetch();
+  $statement->closeCursor();
+  return $guidesDets;
+}
+
+function getGuideActivities($gid) {
+  $actList = [];
+  global $db;
+  $query = 'SELECT * FROM guide_includes WHERE g_id=:gid;';
+  $statement = $db->prepare($query);
+  $statement->bindValue(':gid', $gid);
+  $statement->execute();
+  $activityIds = $statement->fetchAll();
+  $statement->closeCursor();
+
+  foreach($activityIds as $id){
+    global $db;
+    $query = 'SELECT * FROM activities WHERE act_id=:id;';
+    $statement = $db->prepare($query);
+    $statement->bindValue(':id', $id['act_id']);
+    $statement->execute();
+    $activity = $statement->fetch();
+    $statement->closeCursor();
+    array_push($actList, $activity);
+  }
+  return $actList;
 }
 ?>

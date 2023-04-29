@@ -48,7 +48,7 @@
         ";
         $guidesHTML = $guidesHTML . $newRow;
       }
-      $guidesHTML = $guidesHTML . "</table>"
+      $guidesHTML = $guidesHTML . "</table>";
     }
     else if (!empty($_POST['actionBtn']) && ($_POST['actionBtn']) == "Saved Guides") {
       for ($i = 0; $i < count($savedGuides); $i++) {
@@ -65,7 +65,7 @@
         ";
         $guidesHTML = $guidesHTML . $newRow;
       }
-      $guidesHTML = $guidesHTML . "</table>"
+      $guidesHTML = $guidesHTML . "</table>";
     }
   }
   ?>
