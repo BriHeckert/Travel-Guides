@@ -19,6 +19,55 @@
   $firstName = getName($_SESSION['username']);
   $lastName = getLastName($_SESSION['username']);
   $bio = getBio($_SESSION['username']);
+  $myGuides = getUserGuides($_SESSION['username']);
+  $savedGuides = getSavedGuides($_SESSION['username']);
+
+  // Format my guides table
+  $guidesHTML = "
+  <table class='table table-striped table-hover table-bordered'>
+    <tr>
+      <th>Guide</th>
+      <th>Description</th>
+      <th>Date Created</th>
+    </tr>
+  ";
+
+  if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    if (!empty($_POST['actionBtn']) && ($_POST['actionBtn']) == "My Guides") {
+      for ($i = 0; $i < count($myGuides); $i++) {
+        $currentGuide = $myGuides[$i];
+        $title = $currentGuide['title'];
+        $desc = $currentGuide['description'];
+        $date = $currentGuide['date'];
+        $newRow = "
+        <tr>
+          <td>$title</td>
+          <td>$desc</td>
+          <td>$date</td>
+        </tr>
+        ";
+        $guidesHTML = $guidesHTML . $newRow;
+      }
+      $guidesHTML = $guidesHTML . "</table>"
+    }
+    else if (!empty($_POST['actionBtn']) && ($_POST['actionBtn']) == "Saved Guides") {
+      for ($i = 0; $i < count($savedGuides); $i++) {
+        $currentGuide = $savedGuides[$i];
+        $title = $currentGuide['title'];
+        $desc = $currentGuide['description'];
+        $date = $currentGuide['date'];
+        $newRow = "
+        <tr>
+          <td>$title</td>
+          <td>$desc</td>
+          <td>$date</td>
+        </tr>
+        ";
+        $guidesHTML = $guidesHTML . $newRow;
+      }
+      $guidesHTML = $guidesHTML . "</table>"
+    }
+  }
   ?>
 
 <body>
@@ -59,8 +108,11 @@
     </div>
     <div class="container-fluid text-center">
       <div class="btn-group" role="group" aria-label="Profile guides toggle">
-        <button type="button" class="btn btn-primary">My Guides</button>
-        <button type="button" class="btn btn-primary">Saved Guides</button>
+        <input type="submit" class="btn btn-primary" name="actionBtn" value="My Guides">
+        <input type="submit" class="btn btn-primary" name="actionBtn" value="Saved Guides">
       </div>
+    </div>
+    <div class='container' style='overflow-y: scroll; height: 70vh;'>
+      <?php echo $guidesHTML?>
     </div>
 </body>
