@@ -187,4 +187,76 @@ function getGuideActivities($gid) {
   }
   return $actList;
 }
+
+function createGuide($g_id, $title, $date, $description, $location, $duration, $user_email){
+  global $db;
+  $query = "insert into guides values (:g_id, :title, :date, :description, :location, :duration, :user_email)";
+  $statement = $db->prepare($query);
+  $statement->bindValue(':g_id', $g_id);
+  $statement->bindValue(':title', $title);
+  $statement->bindValue(':date', $date);
+  $statement->bindValue(':description', $description);
+  $statement->bindValue(':location', $location);
+  $statement->bindValue(':duration', $duration);
+  $statement->bindValue(':user_email', $user_email);
+  $statement->execute();
+  $statement->closeCursor();
+}
+
+function createActivity($g_id, $act_id, $title, $description, $address){
+  global $db;
+  $query = "insert into activities values (:act_id, :title, :description, :address)";
+  $statement = $db->prepare($query);
+  $statement->bindValue(':act_id', $act_id);
+  $statement->bindValue(':title', $title);
+  $statement->bindValue(':description', $description);
+  $statement->bindValue(':address', $address);
+  $statement->execute();
+  $statement->closeCursor();
+
+  global $db;
+  $query = "insert into guide_includes values (:g_id, :act_id)";
+  $statement = $db->prepare($query);
+  $statement->bindValue(':g_id', $g_id);
+  $statement->bindValue(':act_id', $act_id);
+  $statement->execute();
+  $statement->closeCursor();
+}
+
+function deleteGuide($g_id){
+  global $db;
+  $query = "delete from guides where g_id=:guide";
+  $statement = $db->prepare($query);
+  $statement->bindValue(':guide', $g_id);
+  $statement->execute();
+  $statement->closeCursor();
+
+  $actList = getGuideActivities($g_id);
+  foreach($actList as $activity){
+    deleteActivity($activity);
+  }
+
+  global $db;
+  $query = "delete from guide_includes where g_id=:guide";
+  $statement = $db->prepare($query);
+  $statement->bindValue(':guide', $g_id);
+  $statement->execute();
+  $statement->closeCursor();
+}
+
+function deleteActivity($act_id){
+  global $db;
+  $query = "delete from activities where act_id=:activity";
+  $statement = $db->prepare($query);
+  $statement->bindValue(':activity', $act_id);
+  $statement->execute();
+  $statement->closeCursor();
+
+  global $db;
+  $query = "delete from guide_includes where act_id=:activity";
+  $statement = $db->prepare($query);
+  $statement->bindValue(':activity', $act_id);
+  $statement->execute();
+  $statement->closeCursor();
+}
 ?>

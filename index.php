@@ -44,7 +44,6 @@
 
   if ($_SERVER['REQUEST_METHOD'] == 'POST'){
     if (!empty($_POST['LoginBtn']) && !empty($_POST['username']) && !empty($_POST['password'])){
-      // $password = password_hash(trim($_POST['password']), PASSWORD_DEFAULT);
       $password = trim($_POST['password']);
       $username = trim($_POST['username']);
       if (checkUser($username, $password)){
