@@ -21,6 +21,7 @@
 
   $guide = getGuideDetails($gid);
   $activities = getGuideActivities($gid);
+  $comments = getComments($gid);
 
   $title = $guide['title'];
   $date = $guide['date'];
@@ -52,6 +53,34 @@
 
     $activityDisplay = $activityDisplay . $newCard;
   };
+
+
+  $commentsDisplay = "
+  <table class='table table-striped table-hover table-bordered'>
+    <tr>
+      <th>User</th>
+      <th>Comment</th>
+      <th>Date</th>
+    </tr>
+  ";
+
+  for ($i = 0; $i < count($comments); $i++) {
+    $comment = $comments[$i];
+    $user = $comment['user_email'];
+    $text = $comment['text'];
+    $time = $comment['timestamp'];
+    $newRow = "
+    <tr>
+      <td onclick='location.href=`friend-profile.php?friendUsername=$user`'>$user</td>
+      <td>$text</td>
+      <td>$timestamp</td>
+    </tr>
+    ";
+
+    $commentsDisplay = $commentsDisplay . $newRow;
+  }
+
+  $commentsDisplay = $commentsDisplay . "</table>";
 
   ?>
 
@@ -109,6 +138,11 @@
     <div>
       <h4>Activities:</h4>
         <?php echo $activityDisplay;?>
+    </div>
+    <div>
+      <h4>Comments:</h4>
+        <?php echo $commentsDisplay;?>
+        <p>Leave a comment here!</p>
     </div>
   </div>
 
