@@ -150,7 +150,7 @@
   <br>
 
   <div class='container bg-light border border-info p-3' style='overflow-y: scroll;'>
-    <h4 class='text-end'><?php echo $date?></h3>
+  <h3 class='text-end'>Created: <?php echo $date?></h3>
     <form action="<?php $_SERVER['PHP_SELF'] ?>" method="post" class='text-end'>
       <input type="submit" class="btn btn-outline-danger text-end" name="saveBtn" value="Save Guide"></input>
     </form>
