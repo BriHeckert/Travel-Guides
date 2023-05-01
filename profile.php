@@ -21,17 +21,19 @@
   $bio = getBio($_SESSION['username']);
   $myGuides = getUserGuides($_SESSION['username']);
   $savedGuides = getSavedGuides($_SESSION['username']);
+  $myGuidesDisplay = "You haven't created any guides yet!";
 
-  // Format my guides table
-  $myGuidesDisplay = "
-  <table class='table table-striped table-hover table-bordered'>
-    <tr>
-      <th>Guide</th>
-      <th>Description</th>
-      <th>Date Created</th>
-    </tr>
-  ";
-
+  if (count($myGuides) > 0){
+     // Format my guides table
+    $myGuidesDisplay = "
+    <table class='table table-striped table-hover table-bordered'>
+      <tr>
+        <th>Guide</th>
+        <th>Description</th>
+        <th>Date Created</th>
+      </tr>
+    ";
+  }
   for ($i = 0; $i < count($myGuides); $i++) {
     $currentGuide = $myGuides[$i];
     $title = $currentGuide['title'];
@@ -50,8 +52,9 @@
   }
 
   $myGuidesDisplay = $myGuidesDisplay . "</table>";
-
-  // Format saved guides
+  $savedGuidesDisplay = "No Saved Guides";
+  if(count($savedGuides) > 0){
+    // Format saved guides
   $savedGuidesDisplay = "
   <table class='table table-striped table-hover table-bordered'>
     <tr>
@@ -60,6 +63,7 @@
       <th>Date Created</th>
     </tr>
   ";
+  }
 
   for ($i = 0; $i < count($savedGuides); $i++) {
     $currentGuide = getGuideDetails($savedGuides[$i]['g_id']);
@@ -151,7 +155,7 @@
       </div>
     </div><br>
     
-    <div class='container' style='overflow-y: scroll; height: 60vh;'>
+    <div class='container text-center' style='overflow-y: scroll; height: 60vh;'>
       <?php echo $guidesDisplay?>
     </div>
 </body>
