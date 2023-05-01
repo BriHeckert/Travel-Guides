@@ -38,6 +38,39 @@
   if ($guide['user_email']){
     $author = getName($guide['user_email']) . " " .getLastName($guide['user_email']);
   }
+  $friendEmail = $guide['user_email'];
+
+  $creatorDisplay = "
+  <table class='table table-striped table-hover table-bordered'>
+    <tr>
+      <th>Created By</th>
+    </tr>
+  ";
+
+  $newCreatorRow = "
+    <tr>
+      <td onclick='location.href=`friend-profile.php?friendUsername=$friendEmail`'>$author</td>
+    </tr>
+    ";
+  
+  $creatorDisplay = $creatorDisplay . $newCreatorRow;
+  $creatorDisplay = $creatorDisplay . "</table>";
+
+  $rateDisplay = "
+  <table class='table table-striped table-hover table-bordered'>
+    <tr>
+      <th>Average Rating</th>
+    </tr>
+  ";
+
+  $newRateRow = "
+  <tr>
+    <td>$rating</td>
+  </tr>
+  ";
+
+  $rateDisplay = $rateDisplay . $newRateRow;
+  $rateDisplay = $rateDisplay . "</table>";
   
   $activityDisplay = "";
 
@@ -59,7 +92,6 @@
 
     $activityDisplay = $activityDisplay . $newCard;
   };
-
 
   $commentsDisplay = "
   <table class='table table-striped table-hover table-bordered'>
@@ -153,8 +185,12 @@
     </form>
     <h1><?php echo $title?></h1>
     <p class='fw-bold'><?php echo $location?></p>
-    <p>By: <?php echo $author?></p>
-    <p> Rating: <?php echo $rating?></p>
+    <div>
+        <?php echo $creatorDisplay;?>
+    </div>
+    <div>
+        <?php echo $rateDisplay;?>
+    </div>
     <form name="ratingForm" action="<?php $_SERVER['PHP_SELF'] ?>" method="post">
           <div class="form-group col">
             <select class="custom-select form-control-sm" name="rating">
@@ -166,7 +202,7 @@
               <option value=1>1</option>
             <input type="submit" class="btn btn-primary btn-block btn-sm" name="ratingBtn" value="Submit Rating"></input>
           </div>
-        </form>
+    </form>
     <hr/>
     <div class='pt-4'>
       <h4>Description:</h4>
