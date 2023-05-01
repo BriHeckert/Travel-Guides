@@ -82,6 +82,12 @@
 
   $commentsDisplay = $commentsDisplay . "</table>";
 
+  if ($_SERVER['REQUEST_METHOD'] == 'POST'){
+    if (!empty($_POST['commentBtn'])) {
+      addComment($_SESSION['username'], $gid , $_POST['comment'], date("Y-m-d"));
+      $comments = getComments($gid);
+    }
+  }
   ?>
 
 <body>
@@ -142,7 +148,9 @@
     <div>
       <h4>Comments:</h4>
         <?php echo $commentsDisplay;?>
-        <p>Leave a comment here!</p>
+        <form name="commentForm" action="<?php $_SERVER['PHP_SELF'] ?>" method="post">
+          <textarea class="form-control" name="comment" rows="2" placeholder="Leave a Comment Here!"></textarea>
+          <input type="submit" class="btn btn-primary btn-block mb-4" name="commentBtn" value="Comment"></input>
     </div>
   </div>
 

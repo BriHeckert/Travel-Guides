@@ -266,4 +266,16 @@ function getComments($guide_id) {
   $statement->closeCursor();
   return $comments;
 }
+
+function addComment($username, $guide_id, $comment, $time) {
+  global $db;
+  $query = 'insert into comments values (:username, :guide_id, :comment, :time)';
+  $statement = $db->prepare($query);
+  $statement->bindValue(':username', $username);
+  $statement->bindValue(':guide_id', $guide_id);
+  $statement->bindValue(':comment', $comment);
+  $statement->bindValue(':time', $time);
+  $statement->execute();
+  $statement->closeCursor();
+}
 ?>
