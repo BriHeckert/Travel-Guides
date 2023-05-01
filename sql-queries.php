@@ -422,4 +422,31 @@ function getFollowing($username) {
   $statement->closeCursor();
   return $following;
 }
+
+function editGuide($gid, $new_title, $new_date, $new_description, $new_location, $new_duration, $email){
+  global $db;
+  $query = "update guides set title=:new_title, date=:new_date, description=:new_description, location=:new_location, duration=:new_duration, user_email=:email where g_id=:gid";
+  $statement = $db->prepare($query);
+  $statement->bindValue(':new_title', $new_title);
+  $statement->bindValue(':new_date', $new_date);
+  $statement->bindValue(':new_description', $new_description);
+  $statement->bindValue(':new_location', $new_location);
+  $statement->bindValue(':email', $email);
+  $statement->bindValue(':gid', $gid);
+  $statement->bindValue(':new_duration', $new_duration);
+  $statement->execute();
+  $statement->closeCursor();
+}
+
+function editActivity($aid, $new_title, $new_description, $new_address){
+  global $db;
+  $query = "update activities set title=:new_title, description=:new_description, address=:new_address where act_id=:aid";
+  $statement = $db->prepare($query);
+  $statement->bindValue(':new_title', $new_title);
+  $statement->bindValue(':new_description', $new_description);
+  $statement->bindValue(':new_address', $new_address);
+  $statement->bindValue(':aid', $aid);
+  $statement->execute();
+  $statement->closeCursor();
+}
 ?>

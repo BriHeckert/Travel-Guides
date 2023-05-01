@@ -49,8 +49,7 @@
       <td onclick='location.href=`detailed-guide-view.php?gid=$gid`'>$title</td>
       <td onclick='location.href=`detailed-guide-view.php?gid=$gid`'>$desc</td>
       <td onclick='location.href=`detailed-guide-view.php?gid=$gid`'>$date</td>
-      <td><a>'location.href=`edit-group.php?gid=$gid`'></button></td> // link to new edit page
-    </tr>
+      <td><a href=edit-guide.php?gid=$gid class='btn btn-warning'>Edit</a></td>
     ";
 
     $myGuidesDisplay = $myGuidesDisplay . $newRow;
