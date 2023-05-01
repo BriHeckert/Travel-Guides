@@ -36,11 +36,12 @@
     $title = $currentGuide['title'];
     $desc = $currentGuide['description'];
     $date = $currentGuide['date'];
+    $gid = $currentGuide['g_id'];
     $newRow = "
     <tr>
-      <td>$title</td>
-      <td>$desc</td>
-      <td>$date</td>
+      <td onclick='location.href=`detailed-guide-view.php?gid=$gid`'>$title</td>
+      <td onclick='location.href=`detailed-guide-view.php?gid=$gid`'>$desc</td>
+      <td onclick='location.href=`detailed-guide-view.php?gid=$gid`'>$date</td>
     </tr>
     ";
 
