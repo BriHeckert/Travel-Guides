@@ -147,9 +147,9 @@
   <br>
 
   <div class='container bg-light border border-info p-3' style='overflow-y: scroll;'>
-  <h5 class='text-end'>Created: <?php echo $date?></h5>
+  <h5 class='text-end'><?php echo $date?></h5>
     <form action="<?php $_SERVER['PHP_SELF'] ?>" method="post" class='text-end'>
-      <input type="submit" class="btn btn-outline-danger text-end" name="saveBtn" value="Save Guide"></input>
+      <input type="submit" class="btn btn-outline-success text-end" style='width: 15vh; align: center' name="saveBtn" value="Save Guide"></input>
     </form>
     <h1><?php echo $title?></h1>
     <p class='fw-bold'><?php echo $location?></p>
