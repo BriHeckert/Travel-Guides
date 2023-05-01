@@ -98,8 +98,12 @@
         leaveRating($gid, $_SESSION['username'], trim($_POST['rating']));
       }
       header('Location: detailed-guide-view.php?gid='.$gid);
+    }
+    if (!empty($_POST['saveBtn'])) {
+      saveGuide($_SESSION['username'], $gid);
+    }
   }
-}
+
   ?>
 
 <body>
@@ -162,9 +166,11 @@
               <option value=3>3</option>
               <option value=2>2</option>
               <option value=1>1</option>
-            <input type="submit" class="btn btn-primary btn-block btn-sm" name="ratingBtn" value="Save"></input>
+            <input type="submit" class="btn btn-primary btn-block btn-sm" name="ratingBtn" value="Submit Rating"></input>
           </div>
         </form>
+    <p>Like this guide? Save it!</p>
+    <input type="submit" class="btn btn-primary btn-block mb-4 mt-4" name="saveBtn" value="Save Guide"></input>
     <hr/>
     <div class='pt-4'>
       <h4>Description:</h4>

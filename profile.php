@@ -81,7 +81,8 @@
   $savedGuidesDisplay = $savedGuidesDisplay . "</table>";
 
   // General display table gets changed when toggles
-  $guidesDisplay = $savedGuidesDisplay;
+  $guidesDisplay = $myGuidesDisplay;
+
 
   if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (isset($_POST['logOutBtn'])){
