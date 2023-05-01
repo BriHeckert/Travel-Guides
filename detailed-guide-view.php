@@ -21,6 +21,7 @@
 
   $guide = getGuideDetails($gid);
   $activities = getGuideActivities($gid);
+  $comments = getComments($gid);
 
   $title = $guide['title'];
   $date = $guide['date'];
@@ -53,6 +54,40 @@
     $activityDisplay = $activityDisplay . $newCard;
   };
 
+
+  $commentsDisplay = "
+  <table class='table table-striped table-hover table-bordered'>
+    <tr>
+      <th>User</th>
+      <th>Comment</th>
+      <th>Date</th>
+    </tr>
+  ";
+
+  for ($i = 0; $i < count($comments); $i++) {
+    $comment = $comments[$i];
+    $user = $comment['user_email'];
+    $text = $comment['text'];
+    $time = $comment['timestamp'];
+    $newRow = "
+    <tr>
+      <td onclick='location.href=`friend-profile.php?friendUsername=$user`'>$user</td>
+      <td>$text</td>
+      <td>$timestamp</td>
+    </tr>
+    ";
+
+    $commentsDisplay = $commentsDisplay . $newRow;
+  }
+
+  $commentsDisplay = $commentsDisplay . "</table>";
+
+  if ($_SERVER['REQUEST_METHOD'] == 'POST'){
+    if (!empty($_POST['commentBtn'])) {
+      addComment($_SESSION['username'], $gid , $_POST['comment'], date("Y-m-d"));
+      $comments = getComments($gid);
+    }
+  }
   ?>
 
 <body>
@@ -109,6 +144,13 @@
     <div>
       <h4>Activities:</h4>
         <?php echo $activityDisplay;?>
+    </div>
+    <div>
+      <h4>Comments:</h4>
+        <?php echo $commentsDisplay;?>
+        <form name="commentForm" action="<?php $_SERVER['PHP_SELF'] ?>" method="post">
+          <textarea class="form-control" name="comment" rows="2" placeholder="Leave a Comment Here!"></textarea>
+          <input type="submit" class="btn btn-primary btn-block mb-4" name="commentBtn" value="Comment"></input>
     </div>
   </div>
 

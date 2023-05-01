@@ -74,7 +74,7 @@ function updateProfile($username, $firstName, $lastName, $bio){
   
 function getGuides() { // Eventually will add filters as params
   global $db;
-  $query = 'SELECT * FROM guides;';
+  $query = 'SELECT * FROM guides';
   $statement = $db->prepare($query);
   $statement->execute();
   $allGuides = $statement->fetchAll();
@@ -82,7 +82,7 @@ function getGuides() { // Eventually will add filters as params
   return $allGuides;
 }
 
-function followUserpt1($username, $friendName) {
+function followUser($username, $friendName) {
   global $db;
   $query = 'insert into following values (:user_email, :followed_user_email)';
   $statement = $db->prepare($query);
@@ -90,9 +90,7 @@ function followUserpt1($username, $friendName) {
   $statement->bindValue(':followed_user_email', $friendName);
   $statement->execute();
   $statement->closeCursor();
-}
 
-function followUserpt2($friendName, $username) {
   global $db;
   $query = 'insert into followers values (:user_email, :follower_user_email)';
   $statement = $db->prepare($query);
@@ -102,7 +100,7 @@ function followUserpt2($friendName, $username) {
   $statement->closeCursor();
 }
 
-function unfollowUserpt1($username, $friendName) {
+function unfollowUser($username, $friendName) {
   global $db;
   $query = 'delete from following where user_email=:username and followed_user_email=:friendName';
   $statement = $db->prepare($query);
@@ -110,9 +108,7 @@ function unfollowUserpt1($username, $friendName) {
   $statement->bindValue(':friendName', $friendName);
   $statement->execute();
   $statement->closeCursor();
-}
 
-function unfollowUserpt2($friendName, $username) {
   global $db;
   $query = 'delete from followers where user_email=:friendName and follower_user_email=:username';
   $statement = $db->prepare($query);
@@ -122,7 +118,7 @@ function unfollowUserpt2($friendName, $username) {
   $statement->closeCursor();
 }
 
-function getifFollowing($username) {
+function getFollowing($username) {
   global $db;
   $query = 'select followed_user_email from following where user_email=:username';
   $statement->bindValue(':username', $username);
@@ -134,7 +130,7 @@ function getifFollowing($username) {
 
 function getUserGuides($username) {
   global $db;
-  $query = 'SELECT * FROM guides WHERE user_email=:username;';
+  $query = 'SELECT * FROM guides WHERE user_email=:username';
   $statement = $db->prepare($query);
   $statement->bindValue(':username', $username);
   $statement->execute();
@@ -145,7 +141,7 @@ function getUserGuides($username) {
 
 function getSavedGuides($username) {
   global $db;
-  $query = 'SELECT * FROM user_saved WHERE user_email=:username;';
+  $query = 'SELECT * FROM user_saved WHERE user_email=:username';
   $statement = $db->prepare($query);
   $statement->bindValue(':username', $username);
   $statement->execute();
@@ -156,7 +152,7 @@ function getSavedGuides($username) {
 
 function getGuideDetails($gid) {
   global $db;
-  $query = 'SELECT * FROM guides WHERE g_id=:gid;';
+  $query = 'SELECT * FROM guides WHERE g_id=:gid';
   $statement = $db->prepare($query);
   $statement->bindValue(':gid', $gid);
   $statement->execute();
@@ -168,7 +164,7 @@ function getGuideDetails($gid) {
 function getGuideActivities($gid) {
   $actList = [];
   global $db;
-  $query = 'SELECT * FROM guide_includes WHERE g_id=:gid;';
+  $query = 'SELECT * FROM guide_includes WHERE g_id=:gid';
   $statement = $db->prepare($query);
   $statement->bindValue(':gid', $gid);
   $statement->execute();
@@ -177,7 +173,7 @@ function getGuideActivities($gid) {
 
   foreach($activityIds as $id){
     global $db;
-    $query = 'SELECT * FROM activities WHERE act_id=:id;';
+    $query = 'SELECT * FROM activities WHERE act_id=:id';
     $statement = $db->prepare($query);
     $statement->bindValue(':id', $id['act_id']);
     $statement->execute();
@@ -256,6 +252,29 @@ function deleteActivity($act_id){
   $query = "delete from guide_includes where act_id=:activity";
   $statement = $db->prepare($query);
   $statement->bindValue(':activity', $act_id);
+  $statement->execute();
+  $statement->closeCursor();
+}
+
+function getComments($guide_id) {
+  global $db;
+  $query = 'SELECT C.user_email, C.text, C.timestamp FROM comments as C WHERE C.g_id=:guide_id';
+  $statement = $db->prepare($query);
+  $statement->bindValue(':guide_id', $guide_id);
+  $statement->execute();
+  $comments = $statement->fetchAll();
+  $statement->closeCursor();
+  return $comments;
+}
+
+function addComment($username, $guide_id, $comment, $time) {
+  global $db;
+  $query = 'insert into comments values (:username, :guide_id, :comment, :time)';
+  $statement = $db->prepare($query);
+  $statement->bindValue(':username', $username);
+  $statement->bindValue(':guide_id', $guide_id);
+  $statement->bindValue(':comment', $comment);
+  $statement->bindValue(':time', $time);
   $statement->execute();
   $statement->closeCursor();
 }
