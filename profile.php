@@ -23,7 +23,7 @@
   $savedGuides = getSavedGuides($_SESSION['username']);
 
   // Format my guides table
-  $guidesHTML = "
+  $myGuidesDisplay = "
   <table class='table table-striped table-hover table-bordered'>
     <tr>
       <th>Guide</th>
@@ -32,40 +32,63 @@
     </tr>
   ";
 
+  for ($i = 0; $i < count($myGuides); $i++) {
+    $currentGuide = $myGuides[$i];
+    $title = $currentGuide['title'];
+    $desc = $currentGuide['description'];
+    $date = $currentGuide['date'];
+    $gid = $currentGuide['g_id'];
+    $newRow = "
+    <tr>
+      <td onclick='location.href=`detailed-guide-view.php?gid=$gid`'>$title</td>
+      <td onclick='location.href=`detailed-guide-view.php?gid=$gid`'>$desc</td>
+      <td onclick='location.href=`detailed-guide-view.php?gid=$gid`'>$date</td>
+    </tr>
+    ";
+
+    $myGuidesDisplay = $myGuidesDisplay . $newRow;
+  }
+
+  $myGuidesDisplay = $myGuidesDisplay . "</table>";
+
+  // Format saved guides
+  $savedGuidesDisplay = "
+  <table class='table table-striped table-hover table-bordered'>
+    <tr>
+      <th>Guide</th>
+      <th>Description</th>
+      <th>Date Created</th>
+    </tr>
+  ";
+
+  for ($i = 0; $i < count($savedGuides); $i++) {
+    $currentGuide = $savedGuides[$i];
+    $title = $currentGuide['title'];
+    $desc = $currentGuide['description'];
+    $date = $currentGuide['date'];
+    $gid = $currentGuide['g_id'];
+    $newRow = "
+    <tr>
+      <td onclick='location.href=`detailed-guide-view.php?gid=$gid`'>$title</td>
+      <td onclick='location.href=`detailed-guide-view.php?gid=$gid`'>$desc</td>
+      <td onclick='location.href=`detailed-guide-view.php?gid=$gid`'>$date</td>
+    </tr>
+    ";
+
+    $savedGuidesDisplay = $savedGuidesDisplay . $newRow;
+  }
+
+  $savedGuidesDisplay = $savedGuidesDisplay . "</table>";
+
+  // General display table gets changed when toggles
+  $guidesDisplay = $savedGuidesDisplay;
+
   if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (!empty($_POST['actionBtn']) && ($_POST['actionBtn']) == "My Guides") {
-      for ($i = 0; $i < count($myGuides); $i++) {
-        $currentGuide = $myGuides[$i];
-        $title = $currentGuide['title'];
-        $desc = $currentGuide['description'];
-        $date = $currentGuide['date'];
-        $newRow = "
-        <tr>
-          <td>$title</td>
-          <td>$desc</td>
-          <td>$date</td>
-        </tr>
-        ";
-        $guidesHTML = $guidesHTML . $newRow;
-      }
-      $guidesHTML = $guidesHTML . "</table>";
+      $guidesDisplay = $myGuidesDisplay;
     }
     else if (!empty($_POST['actionBtn']) && ($_POST['actionBtn']) == "Saved Guides") {
-      for ($i = 0; $i < count($savedGuides); $i++) {
-        $currentGuide = $savedGuides[$i];
-        $title = $currentGuide['title'];
-        $desc = $currentGuide['description'];
-        $date = $currentGuide['date'];
-        $newRow = "
-        <tr>
-          <td>$title</td>
-          <td>$desc</td>
-          <td>$date</td>
-        </tr>
-        ";
-        $guidesHTML = $guidesHTML . $newRow;
-      }
-      $guidesHTML = $guidesHTML . "</table>";
+      $guidesDisplay = $savedGuidesDisplay;
     }
   }
   ?>
@@ -118,6 +141,6 @@
     </div><br>
     
     <div class='container' style='overflow-y: scroll; height: 60vh;'>
-      <?php echo $guidesHTML?>
+      <?php echo $guidesDisplay?>
     </div>
 </body>

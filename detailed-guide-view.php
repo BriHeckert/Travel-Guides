@@ -99,7 +99,6 @@
       }
       header('Location: detailed-guide-view.php?gid='.$gid);
   }
-  }
   ?>
 
 <body>
