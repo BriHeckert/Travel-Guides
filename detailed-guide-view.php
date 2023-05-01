@@ -19,6 +19,9 @@
   $firstName = getName($_SESSION['username']);
   $gid = $_GET['gid'];
   $rating = getRating($gid);
+  $today = date("Y-m-d");
+
+  addToRecentlyViewed($_SESSION['username'], $gid, $today);
 
   $guide = getGuideDetails($gid);
   $activities = getGuideActivities($gid);
@@ -67,12 +70,13 @@
 
   for ($i = 0; $i < count($comments); $i++) {
     $comment = $comments[$i];
+    $userEmail = $comment['user_email'];
     $user = getName($comment['user_email']) . " " . getLastName($comment['user_email']);
     $text = $comment['text'];
     $time = $comment['timestamp'];
     $newRow = "
     <tr>
-      <td onclick='location.href=`friend-profile.php?friendUsername=$user`'>$user</td>
+      <td onclick='location.href=`friend-profile.php?friendUsername=$userEmail`'>$user</td>
       <td>$text</td>
       <td>$time</td>
     </tr>
