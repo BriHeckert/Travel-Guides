@@ -34,14 +34,6 @@
       <div class="col">
         <a class="navbar-brand" href="browse.php">Travel Buddy</a>
       </div>
-      <div class="col">
-        <form class="form-inline my-2 my-lg-0">
-          <div class="input-group">
-            <input class="form-control mr-lg-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-info my-2 my-sm-0" type="submit">Search</button>
-          </div>
-        </form>
-      </div>
       <div class="col container d-flex text-end justify-content-end">
         <div class="row d-flex align-items-center justify-content-end">
           <div class="col  text-end">
@@ -74,7 +66,7 @@
             <textarea class="form-control" id="newBio" rows="3" name="newBio" placeholder="New bio (required)" style='width: 50vw; align: center;' required></textarea>
           </div><br>
           <div>
-            <input type="submit" class="btn btn-primary" name="editProfile" value="Update"></input>
+            <input type="submit" class="btn btn-primary" style='width: 15vh; align: center' name="editProfile" value="Update"></input>
           </div>
         </form>
 

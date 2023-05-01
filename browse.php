@@ -21,13 +21,18 @@
   // Prepare guide query
   $guides = [];
 
-  if (isset($_POST['duration']) and $_POST['duration'] != 'na') {
-    $guides = getFilteredGuidesWithDuration($_POST['sortby'], $_POST['sortorder'], $_POST['duration']);
-  } else if (isset($_POST['sortby'])) {
-    $guides = getFilteredGuides($_POST['sortby'], $_POST['sortorder']);
-  } else {
-    $guides = getAllGuides();
-  }
+  if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    if (!empty($_POST['searchLoc'])) {
+      $loc = trim($_POST['loc']);
+      $guides = getLocationSearched($loc);
+    }
+    if (isset($_POST['duration']) and $_POST['duration'] != 'na') {
+      $guides = getFilteredGuidesWithDuration($_POST['sortby'], $_POST['sortorder'], $_POST['duration']);
+    } // else if (isset($_POST['sortby'])) {
+      // $guides = getFilteredGuides($_POST['sortby'], $_POST['sortorder']);
+    } else {
+      $guides = getAllGuides();
+    }
 
   // Format guides table
   $guideHTML = "
@@ -69,14 +74,6 @@
       <div class="col">
         <a class="navbar-brand" href="browse.php">Travel Buddy</a>
       </div>
-      <div class="col">
-        <form class="form-inline my-2 my-lg-0">
-          <div class="input-group">
-            <input class="form-control mr-lg-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-info my-2 my-sm-0" type="submit">Search</button>
-          </div>
-        </form>
-      </div>
       <div class="col container d-flex text-end justify-content-end">
         <div class="row d-flex align-items-center justify-content-end">
           <div class="col  text-end">
@@ -99,7 +96,15 @@
 
   <div class='container'>
     <h1>Welcome, <?php echo $firstName?>!</h1>
-    <h3>Check out our available guides:</h3>
+    <h3>Check out our available guides or search yourself!</h3>
+  </div>
+  <div class="container">
+    <form name="searchForm" action="<?php $_SERVER['PHP_SELF'] ?>" method="post">
+      <div class="input-group">
+        <input class="form-control" type="search" placeholder="EX: City, State" id="loc" name="loc" aria-label="Search">
+        <input type="submit" class="btn btn-primary" name="searchLoc" value="Search"></input>
+      </div>
+    </form>
   </div>
   
   <br>
