@@ -243,7 +243,7 @@
       <p><?php echo $bio?></p>
       <div class="container-fluid text-center">
         <a href="edit-profile.php" class="btn btn-info" role="button">Edit Profile</a>
-      </div>
+      </div><br>
         <form action="<?php $_SERVER['PHP_SELF'] ?>" method="post">
           <input type="submit" class="btn btn-danger" name="logOutBtn" value="Log Out"></input>
         </form>

@@ -66,7 +66,7 @@
             <textarea class="form-control" id="newBio" rows="3" name="newBio" placeholder="New bio (required)" style='width: 50vw; align: center;' required></textarea>
           </div><br>
           <div>
-            <input type="submit" class="btn btn-primary" name="editProfile" value="Update"></input>
+            <input type="submit" class="btn btn-primary" style='width: 15vh; align: center' name="editProfile" value="Update"></input>
           </div>
         </form>
 

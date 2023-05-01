@@ -101,7 +101,7 @@
   <div class="container">
     <form name="searchForm" action="<?php $_SERVER['PHP_SELF'] ?>" method="post">
       <div class="input-group">
-        <input class="form-control mr-lg-2" type="search" placeholder="EX: City, State" id="loc" name="loc" aria-label="Search">
+        <input class="form-control" type="search" placeholder="EX: City, State" id="loc" name="loc" aria-label="Search">
         <input type="submit" class="btn btn-primary" name="searchLoc" value="Search"></input>
       </div>
     </form>
