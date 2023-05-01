@@ -83,20 +83,24 @@ function getAllGuides() {
 }
 
 function getFilteredGuides($sort, $order) {
+  $guidesOrdered = [];
   global $db;
-  $query = 'SELECT * FROM guides ORDER BY :sort :order';
+  $query = 'select * from guides order by :sort :order';
   $statement = $db->prepare($query);
   $statement->bindValue(':sort', $sort);
   $statement->bindValue(':order', $order);
   $statement->execute();
   $guides = $statement->fetchAll();
   $statement->closeCursor();
-  return $guides;
+  foreach($guides as $row){
+    array_push($guidesOrdered, $row);
+  }
+  return $guidesOrdered;
 }
 
 function getFilteredGuidesWithDuration($sort, $order, $duration) {
   global $db;
-  $query = 'SELECT * FROM guides WHERE duration = :duration ORDER BY :sort :order';
+  $query = 'select * from guides WHERE duration = :duration order by :sort :order';
   $statement = $db->prepare($query);
   $statement->bindValue(':duration', $duration);
   $statement->bindValue(':sort', $sort);

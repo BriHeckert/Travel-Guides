@@ -21,9 +21,9 @@
   // Prepare guide query
   $guides = [];
 
-  if (isset($_POST['duration']) and $_POST['duration'] != 'na') {
+  if (isset($_POST['filter']) && $_POST['duration'] != 'na') {
     $guides = getFilteredGuidesWithDuration($_POST['sortby'], $_POST['sortorder'], $_POST['duration']);
-  } else if (isset($_POST['sortby'])) {
+  } else if (isset($_POST['filter'])) {
     $guides = getFilteredGuides($_POST['sortby'], $_POST['sortorder']);
   } else {
     $guides = getAllGuides();
@@ -105,7 +105,7 @@
   <br>
 
   <div class='container' align='center'>
-    <form method='post' action='browse.php'>
+    <form action="<?php $_SERVER['PHP_SELF'] ?>" method="post">
       <table style="width: 80vw">
         <td>
           <b>Filter by: </b>
@@ -131,18 +131,18 @@
           Duration:
           <select id='guidelength' name='duration' required>
             <option value='na'>Select</option>
-            <option value='1'>1 Day</option>
-            <option value='2'>2 Days</option>
-            <option value='3'>3 Days</option>
-            <option value='4'>4 Days</option>
-            <option value='5'>5 Days</option>
-            <option value='6'>6 Days</option>
-            <option value='7'>7 Days</option>
+            <option value=1>1 Day</option>
+            <option value=2>2 Days</option>
+            <option value=3>3 Days</option>
+            <option value=4>4 Days</option>
+            <option value=5>5 Days</option>
+            <option value=6>6 Days</option>
+            <option value=7>7 Days</option>
           </select>
         </td>
 
         <td>
-          <input type='submit' value="Filter">
+          <input type='submit' name="filter" value="Filter">
         </td>
 
       </table>
