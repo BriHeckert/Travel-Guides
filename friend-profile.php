@@ -85,7 +85,7 @@
             <a class="nav-link text-danger text-dark" href="profile.php">My Profile</a>
           </div>
           <div class='col'>
-          <a class="text-dark" href="create-guide.php"><button class="btn btn-dark btn-sm btn-block">Create Guide</button></a>
+          <a class="text-dark" href="create-guide.php"><button class="btn btn-primary btn-sm btn-block" style="width: 100px">Create Guide</button></a>
         </div>
         </div>
       </div>

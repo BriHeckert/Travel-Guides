@@ -20,13 +20,11 @@
 
   // Prepare guide query
   $guides = [];
-  $test = "1";
 
   if (isset($_POST['duration']) and $_POST['duration'] != 'na') {
     $guides = getFilteredGuidesWithDuration($_POST['sortby'], $_POST['sortorder'], $_POST['duration']);
   } else if (isset($_POST['sortby'])) {
     $guides = getFilteredGuides($_POST['sortby'], $_POST['sortorder']);
-    $test = $_POST['sortby'] . $_POST['sortorder'];
   } else {
     $guides = getAllGuides();
   }
@@ -88,7 +86,7 @@
             <a class="nav-link text-dark" href="profile.php">Profile</a>
           </div>
           <div class='col'>
-          <a class="text-dark" href="create-guide.php"><button class="btn btn-dark btn-sm btn-block">Create Guide</button></a>
+          <a class="text-dark" href="create-guide.php"><button class="btn btn-primary btn-sm btn-block" style="width: 100px">Create Guide</button></a>
         </div>
         </div>
       </div>
@@ -105,8 +103,6 @@
   </div>
   
   <br>
-
-  <?php echo $test?>
 
   <div class='container' align='center'>
     <form method='post' action='browse.php'>

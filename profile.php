@@ -122,7 +122,7 @@
             <a class="nav-link text-dark" href="profile.php">Profile</a>
           </div>
           <div class='col'>
-          <a class="text-dark" href="create-guide.php"><button class="btn btn-dark btn-sm btn-block">Create Guide</button></a>
+          <a class="text-dark" href="create-guide.php"><button class="btn btn-primary btn-sm btn-block" style="width: 100px">Create Guide</button></a>
           </div>
         </div>
       </div>
@@ -146,8 +146,8 @@
       </div><br>
       <div class="container-fluid text-center">
         <div class="btn-group" role="group" aria-label="Profile guides toggle">
-          <input type="submit" class="btn btn-primary" name="actionBtn" value="My Guides">
-          <input type="submit" class="btn btn-primary" name="actionBtn" value="Saved Guides">
+          <input type="submit" class="btn btn-secondary" name="actionBtn" value="My Guides">
+          <input type="submit" class="btn btn-secondary" name="actionBtn" value="Saved Guides">
         </div>
       </div>
     </div><br>
