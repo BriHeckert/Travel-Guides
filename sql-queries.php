@@ -175,6 +175,17 @@ function getSavedGuides($username) {
   return $savedGuides;
 }
 
+function getRVGuides($username) {
+  global $db;
+  $query = 'SELECT * FROM recently_viewed WHERE user_email=:username';
+  $statement = $db->prepare($query);
+  $statement->bindValue(':username', $username);
+  $statement->execute();
+  $rvGuides = $statement->fetchAll();
+  $statement->closeCursor();
+  return $rvGuides;
+}
+
 function getGuideDetails($gid) {
   global $db;
   $query = 'SELECT * FROM guides WHERE g_id=:gid';
@@ -370,5 +381,20 @@ function addToRecentlyViewed($username, $guide_id, $time) {
   $statement->bindValue(':time', $time);
   $statement->execute();
   $statement->closeCursor();
+}
+
+function checkRecentlyViewed($username, $guide_id) {
+  global $db;
+  $query = 'SELECT count(*) FROM recently_viewed WHERE user_email=:username and g_id=:guide_id';
+  $statement = $db->prepare($query);
+  $statement->bindValue(':username', $username);
+  $statement->bindValue(':guide_id', $guide_id);
+  $statement->execute();
+  $recentlyViewed = $statement->fetch();
+  $statement->closeCursor();
+  if ($recentlyViewed["count(*)"] == 0){
+    return False;
+  }
+  return True;
 }
 ?>
