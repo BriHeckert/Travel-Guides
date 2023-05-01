@@ -104,14 +104,6 @@
     <h4>Check out our available guides:</h4><br>
   </div>
 
-<<<<<<< HEAD
-  <div class='container' align='center'>
-    <form action="<?php $_SERVER['PHP_SELF'] ?>" method="post">
-      <table style="width: 80vw">
-        <td>
-          <b>Filter by: </b>
-        </td>
-=======
   <div class='container'>
     <table style="width: 80vw">
       <td>
@@ -122,7 +114,6 @@
           </div>
         </form>
       </td>
->>>>>>> 00352ef46d1b1ea95466b84ff8e67ffd7a3b6b26
 
       <form method='post' action='browse.php'>
       
@@ -133,16 +124,6 @@
       <td>
           Duration:
           <select id='guidelength' name='duration' required>
-<<<<<<< HEAD
-            <option value='na'>Select</option>
-            <option value=1>1 Day</option>
-            <option value=2>2 Days</option>
-            <option value=3>3 Days</option>
-            <option value=4>4 Days</option>
-            <option value=5>5 Days</option>
-            <option value=6>6 Days</option>
-            <option value=7>7 Days</option>
-=======
             <option value='na' selected disabled>Select</option>
             <option value='1'>1 Day</option>
             <option value='2'>2 Days</option>
@@ -151,19 +132,12 @@
             <option value='5'>5 Days</option>
             <option value='6'>6 Days</option>
             <option value='7'>7 Days</option>
->>>>>>> 00352ef46d1b1ea95466b84ff8e67ffd7a3b6b26
           </select>
       </td>
 
-<<<<<<< HEAD
-        <td>
-          <input type='submit' name="filter" value="Filter">
-        </td>
-=======
       <td>
           <input type='submit' value="Filter">
       </td>
->>>>>>> 00352ef46d1b1ea95466b84ff8e67ffd7a3b6b26
 
       </form>
       <td>

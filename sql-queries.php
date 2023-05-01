@@ -100,11 +100,7 @@ function getFilteredGuides($sort, $order) {
 
 function getGuidesWithDuration($duration) {
   global $db;
-<<<<<<< HEAD
-  $query = 'select * from guides WHERE duration = :duration order by :sort :order';
-=======
   $query = 'SELECT * FROM guides WHERE duration = :duration';
->>>>>>> 00352ef46d1b1ea95466b84ff8e67ffd7a3b6b26
   $statement = $db->prepare($query);
   $statement->bindValue(':duration', $duration);
   $statement->execute();
