@@ -50,7 +50,6 @@
   $guidesHTML = $guidesHTML . "</table>";
 
   # Follow / unfollow
-  # still need to change that that the toggle says like "following" / "not following" when the input is clicked
   if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (isset($_POST['followBtn']) && ($_POST['followBtn']) == "Follow") {
         followUser($_SESSION['username'], $friendEmail);
@@ -91,11 +90,13 @@
       <p><?php echo $friendBio?></p>
   </div>
   <div class="container-fluid text-center">
-      <div class="btn-group" role="group" aria-label="Follow/unfollow friend toggle">
-        <input type="submit" class="btn btn-primary" name="followBtn" value="Follow">
-        <input type="submit" class="btn btn-primary" name="followBtn" value="Unfollow">
-      </div>
-  </div><br>
+    <form name="toggleForm" action="<?php $_SERVER['PHP_SELF'] ?>" method="post">
+            <div class="btn-group text-center" role="group" aria-label="Follow toggle">
+                <input type="submit" class="btn btn-secondary" name="followBtn" value="Follow">
+                <input type="submit" class="btn btn-secondary" name="followBtn" value="Unfollow">
+            </div><br>
+    </form>
+  </div>
   <div class='container text-center' style='overflow-y: scroll; height: 60vh;'>
     <h3><?php echo $friendName?>'s Guides</h3>
     <?php echo $guidesHTML?>
