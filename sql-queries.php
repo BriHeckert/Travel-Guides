@@ -2,7 +2,7 @@
 
 function getName($username){
   global $db;
-  $query = "select first_name from users where user_email=:user_email";
+  $query = "SELECT first_name from users where user_email=:user_email";
   $statement = $db->prepare($query);
   $statement->bindValue(':user_email', $username);
   $statement->execute();
@@ -13,7 +13,7 @@ function getName($username){
 
 function getLastName($username){
   global $db;
-  $query = "select last_name from users where user_email=:user_email";
+  $query = "SELECT last_name from users where user_email=:user_email";
   $statement = $db->prepare($query);
   $statement->bindValue(':user_email', $username);
   $statement->execute();
@@ -24,7 +24,7 @@ function getLastName($username){
 
 function getBio($username){
   global $db;
-  $query = "select bio from users where user_email=:user_email";
+  $query = "SELECT bio from users where user_email=:user_email";
   $statement = $db->prepare($query);
   $statement->bindValue(':user_email', $username);
   $statement->execute();
@@ -35,7 +35,7 @@ function getBio($username){
 
 function validUser($username){
     global $db;
-    $query = "select count(*) from users where user_email=:user_email";
+    $query = "SELECT count(*) from users where user_email=:user_email";
     $statement = $db->prepare($query);
     $statement->bindValue(':user_email', $username);
     $statement->execute();
@@ -49,7 +49,7 @@ function validUser($username){
 
 function addUser($username, $password, $firstName, $lastName, $bio){
     global $db;
-    $query = "insert into users values (:user_email, :first_name, :last_name, :bio, :password)";
+    $query = "INSERT into users values (:user_email, :first_name, :last_name, :bio, :password)";
     $statement = $db->prepare($query);
     $statement->bindValue(':user_email', $username);
     $statement->bindValue(':first_name', $firstName);
@@ -62,7 +62,7 @@ function addUser($username, $password, $firstName, $lastName, $bio){
 
 function updateProfile($username, $firstName, $lastName, $bio){
   global $db;
-  $query = "update users set first_name=:firstName, last_name=:lastName, bio=:bio where user_email=:username";
+  $query = "UPDATE users set first_name=:firstName, last_name=:lastName, bio=:bio where user_email=:username";
   $statement = $db->prepare($query);
   $statement->bindValue(':username', $username);
   $statement->bindValue(':firstName', $firstName);
@@ -120,7 +120,7 @@ function getLocationSearched($location) {
 
 function followUser($username, $friendName) {
   global $db;
-  $query = 'insert into following values (:user_email, :followed_user_email)';
+  $query = 'INSERT into following values (:user_email, :followed_user_email)';
   $statement = $db->prepare($query);
   $statement->bindValue(':user_email', $username);
   $statement->bindValue(':followed_user_email', $friendName);
@@ -128,7 +128,7 @@ function followUser($username, $friendName) {
   $statement->closeCursor();
 
   global $db;
-  $query = 'insert into followers values (:user_email, :follower_user_email)';
+  $query = 'INSERT into followers values (:user_email, :follower_user_email)';
   $statement = $db->prepare($query);
   $statement->bindValue(':user_email', $friendName);
   $statement->bindValue(':follower_user_email', $username);
@@ -138,7 +138,7 @@ function followUser($username, $friendName) {
 
 function unfollowUser($username, $friendName) {
   global $db;
-  $query = 'delete from following where user_email=:username and followed_user_email=:friendName';
+  $query = 'DELETE from following where user_email=:username and followed_user_email=:friendName';
   $statement = $db->prepare($query);
   $statement->bindValue(':username', $username);
   $statement->bindValue(':friendName', $friendName);
@@ -146,7 +146,7 @@ function unfollowUser($username, $friendName) {
   $statement->closeCursor();
 
   global $db;
-  $query = 'delete from followers where user_email=:friendName and follower_user_email=:username';
+  $query = 'DELETE from followers where user_email=:friendName and follower_user_email=:username';
   $statement = $db->prepare($query);
   $statement->bindValue(':friendName', $friendName);
   $statement->bindValue(':username', $username);
@@ -223,7 +223,7 @@ function getGuideActivities($gid) {
 
 function createGuide($g_id, $title, $date, $description, $location, $duration, $user_email){
   global $db;
-  $query = "insert into guides values (:g_id, :title, :date, :description, :location, :duration, :user_email)";
+  $query = "INSERT into guides values (:g_id, :title, :date, :description, :location, :duration, :user_email)";
   $statement = $db->prepare($query);
   $statement->bindValue(':g_id', $g_id);
   $statement->bindValue(':title', $title);
@@ -238,7 +238,7 @@ function createGuide($g_id, $title, $date, $description, $location, $duration, $
 
 function createActivity($g_id, $act_id, $title, $description, $address){
   global $db;
-  $query = "insert into activities values (:act_id, :title, :description, :address)";
+  $query = "INSERT into activities values (:act_id, :title, :description, :address)";
   $statement = $db->prepare($query);
   $statement->bindValue(':act_id', $act_id);
   $statement->bindValue(':title', $title);
@@ -248,7 +248,7 @@ function createActivity($g_id, $act_id, $title, $description, $address){
   $statement->closeCursor();
 
   global $db;
-  $query = "insert into guide_includes values (:g_id, :act_id)";
+  $query = "INSERT into guide_includes values (:g_id, :act_id)";
   $statement = $db->prepare($query);
   $statement->bindValue(':g_id', $g_id);
   $statement->bindValue(':act_id', $act_id);
@@ -258,7 +258,7 @@ function createActivity($g_id, $act_id, $title, $description, $address){
 
 function deleteGuide($g_id){
   global $db;
-  $query = "delete from guides where g_id=:guide";
+  $query = "DELETE from guides where g_id=:guide";
   $statement = $db->prepare($query);
   $statement->bindValue(':guide', $g_id);
   $statement->execute();
@@ -270,7 +270,7 @@ function deleteGuide($g_id){
   }
 
   global $db;
-  $query = "delete from guide_includes where g_id=:guide";
+  $query = "DELETE from guide_includes where g_id=:guide";
   $statement = $db->prepare($query);
   $statement->bindValue(':guide', $g_id);
   $statement->execute();
@@ -279,14 +279,14 @@ function deleteGuide($g_id){
 
 function deleteActivity($act_id){
   global $db;
-  $query = "delete from activities where act_id=:activity";
+  $query = "DELETE from activities where act_id=:activity";
   $statement = $db->prepare($query);
   $statement->bindValue(':activity', $act_id);
   $statement->execute();
   $statement->closeCursor();
 
   global $db;
-  $query = "delete from guide_includes where act_id=:activity";
+  $query = "DELETE from guide_includes where act_id=:activity";
   $statement = $db->prepare($query);
   $statement->bindValue(':activity', $act_id);
   $statement->execute();
@@ -306,7 +306,7 @@ function getComments($guide_id) {
 
 function addComment($username, $guide_id, $comment, $time) {
   global $db;
-  $query = 'insert into comments values (:username, :guide_id, :comment, :time)';
+  $query = 'INSERT into comments values (:username, :guide_id, :comment, :time)';
   $statement = $db->prepare($query);
   $statement->bindValue(':username', $username);
   $statement->bindValue(':guide_id', $guide_id);
@@ -354,7 +354,7 @@ function checkRated($g_id, $user_email) {
 
 function leaveRating($g_id, $user_email, $rate){
   global $db;
-  $query = 'insert into ratings values (:g_id, :user_email, :rate)';
+  $query = 'INSERT into ratings values (:g_id, :user_email, :rate)';
   $statement = $db->prepare($query);
   $statement->bindValue(':g_id', $g_id);
   $statement->bindValue(':user_email', $user_email);
@@ -365,7 +365,7 @@ function leaveRating($g_id, $user_email, $rate){
 
 function saveGuide($username, $guide_id) {
   global $db;
-  $query = 'insert into user_saved values (:username, :guide_id)';
+  $query = 'INSERT into user_saved values (:username, :guide_id)';
   $statement = $db->prepare($query);
   $statement->bindValue(':username', $username);
   $statement->bindValue(':guide_id', $guide_id);
@@ -375,7 +375,7 @@ function saveGuide($username, $guide_id) {
 
 function addToRecentlyViewed($username, $guide_id, $time) {
   global $db;
-  $query = 'insert into recently_viewed values (:username, :guide_id, :time)';
+  $query = 'INSERT into recently_viewed values (:username, :guide_id, :time)';
   $statement = $db->prepare($query);
   $statement->bindValue(':username', $username);
   $statement->bindValue(':guide_id', $guide_id);
@@ -412,7 +412,7 @@ function getFollowers($username) {
 
 function getFollowing($username) {
   global $db;
-  $query = 'select U.user_email, U.first_name, U.last_name, U.bio from users as U, following as F where F.user_email=:username and F.followed_user_email=U.user_email';
+  $query = 'SELECT U.user_email, U.first_name, U.last_name, U.bio from users as U, following as F where F.user_email=:username and F.followed_user_email=U.user_email';
   $statement = $db->prepare($query);
   $statement->bindValue(':username', $username);
   $statement->execute();

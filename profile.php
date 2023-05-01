@@ -139,12 +139,12 @@
     $userEmail = $currentUser['user_email'];
     $first_name = $currentUser['first_name'];
     $last_name = $currentUser['last_name'];
-    $bio = $currentUser['bio'];
+    $u_bio = $currentUser['bio'];
     $newRow = "
     <tr>
       <td onclick='location.href=`friend-profile.php?friendUsername=$userEmail`'>$first_name</td>
       <td onclick='location.href=`friend-profile.php?friendUsername=$userEmail`'>$last_name</td>
-      <td onclick='location.href=`friend-profile.php?friendUsername=$userEmail`'>$bio</td>
+      <td onclick='location.href=`friend-profile.php?friendUsername=$userEmail`'>$u_bio</td>
     </tr>
     ";
 
@@ -170,12 +170,12 @@
     $userEmail = $currentUser['user_email'];
     $first_name = $currentUser['first_name'];
     $last_name = $currentUser['last_name'];
-    $bio = $currentUser['bio'];
+    $u_bio = $currentUser['bio'];
     $newRow = "
     <tr>
       <td onclick='location.href=`friend-profile.php?friendUsername=$userEmail`'>$first_name</td>
       <td onclick='location.href=`friend-profile.php?friendUsername=$userEmail`'>$last_name</td>
-      <td onclick='location.href=`friend-profile.php?friendUsername=$userEmail`'>$bio</td>
+      <td onclick='location.href=`friend-profile.php?friendUsername=$userEmail`'>$u_bio</td>
     </tr>
     ";
 
