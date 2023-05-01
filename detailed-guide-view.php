@@ -19,6 +19,9 @@
   $firstName = getName($_SESSION['username']);
   $gid = $_GET['gid'];
   $rating = getRating($gid);
+  $today = date("Y-m-d");
+
+  addToRecentlyViewed($_SESSION['username'], $gid, $today);
 
   $guide = getGuideDetails($gid);
   $activities = getGuideActivities($gid);

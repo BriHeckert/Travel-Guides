@@ -360,4 +360,15 @@ function saveGuide($username, $guide_id) {
   $statement->execute();
   $statement->closeCursor();
 }
+
+function addToRecentlyViewed($username, $guide_id, $time) {
+  global $db;
+  $query = 'insert into recently_viewed values (:username, :guide_id, :time)';
+  $statement = $db->prepare($query);
+  $statement->bindValue(':username', $username);
+  $statement->bindValue(':guide_id', $guide_id);
+  $statement->bindValue(':time', $time);
+  $statement->execute();
+  $statement->closeCursor();
+}
 ?>
