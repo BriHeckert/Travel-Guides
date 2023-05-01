@@ -97,7 +97,9 @@
             </div><br>
     </form>
   </div>
+  <div class="container-fluid text-center">
+    <h4><?php echo $friendName?>'s Guides</h4>
+  </div>
   <div class='container text-center' style='overflow-y: scroll; height: 60vh;'>
-    <h3><?php echo $friendName?>'s Guides</h3>
     <?php echo $guidesHTML?>
   </div> 
