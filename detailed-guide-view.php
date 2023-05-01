@@ -149,7 +149,7 @@
   <br>
 
   <div class='container bg-light border border-info p-3' style='overflow-y: scroll;'>
-    <h4 class='text-end'><?php echo $date?></h3>
+    <h4 class='text-end'>Created: <?php echo $date?></h3>
     <h1><?php echo $title?></h1>
     <p class='fw-bold'><?php echo $location?></p>
     <p>By: <?php echo $author?></p>
