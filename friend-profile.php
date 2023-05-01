@@ -52,11 +52,11 @@
   # Follow / unfollow
   # still need to change that that the toggle says like "following" / "not following" when the input is clicked
   if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    if (!empty($_POST['actionBtn']) && ($_POST['actionBtn'] == "Follow")) {
-      followUser($_SESSION['username'], $friendEmail);
-    }
-    else if (!empty($_POST['actionBtn']) && ($_POST['actionBtn'] == "Unfollow")) {
-      unfollowUser($_SESSION['username'], $friendEmail);
+    if (isset($_POST['followBtn']) && ($_POST['followBtn']) == "Follow") {
+        followUser($_SESSION['username'], $friendEmail);
+      }
+    if (isset($_POST['followBtn']) && ($_POST['followBtn']) == "Unfollow") {
+        unfollowUser($_SESSION['username'], $friendEmail);
     }
   }
   ?>
@@ -93,17 +93,18 @@
   </nav>
 
   <!-- body content -->
+  <br>
   <div class="container-fluid text-center">
       <h3><?php echo $friendName?> <?php echo $friendLastName?></h2>
       <p><?php echo $friendBio?></p>
   </div>
   <div class="container-fluid text-center">
       <div class="btn-group" role="group" aria-label="Follow/unfollow friend toggle">
-        <input type="submit" class="btn btn-primary" name="actionBtn" value="Follow">
-        <input type="submit" class="btn btn-primary" name="actionBtn" value="Unfollow">
+        <input type="submit" class="btn btn-primary" name="followBtn" value="Follow">
+        <input type="submit" class="btn btn-primary" name="followBtn" value="Unfollow">
       </div>
-  </div>
-  <div>
-    <h2><?php echo $friendName?>'s Guides</h2>
+  </div><br>
+  <div class='container text-center' style='overflow-y: scroll; height: 60vh;'>
+    <h3><?php echo $friendName?>'s Guides</h3>
     <?php echo $guidesHTML?>
   </div> 

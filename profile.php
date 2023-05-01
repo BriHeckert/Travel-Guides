@@ -22,8 +22,10 @@
   $myGuides = getUserGuides($_SESSION['username']);
   $savedGuides = getSavedGuides($_SESSION['username']);
   $rvGuides = getRVGuides($_SESSION['username']);
-  $myGuidesDisplay = "You haven't created any guides yet!";
+  $followers = getFollowers($_SESSION['username']);
+  $following = getFollowing($_SESSION['username']);
 
+  $myGuidesDisplay = "You haven't created any guides yet!";
   if (count($myGuides) > 0){
      // Format my guides table
     $myGuidesDisplay = "
@@ -118,8 +120,74 @@
 
   $rvGuidesDisplay = $rvGuidesDisplay . "</table>";
 
+  // Following and followers display
+
+  $followersDisplay = "You currently have no followers!";
+  if(count($followers) > 0){
+    // Format 
+  $followersDisplay = "
+  <table class='table table-striped table-hover table-bordered'>
+    <tr>
+      <th>First Name</th>
+      <th>Last Name</th>
+      <th>Bio</th>
+    </tr>
+  ";
+  }
+  for ($i = 0; $i < count($followers); $i++) {
+    $currentUser = $followers[$i];
+    $userEmail = $currentUser['user_email'];
+    $first_name = $currentUser['first_name'];
+    $last_name = $currentUser['last_name'];
+    $bio = $currentUser['bio'];
+    $newRow = "
+    <tr>
+      <td onclick='location.href=`friend-profile.php?friendUsername=$userEmail`'>$first_name</td>
+      <td onclick='location.href=`friend-profile.php?friendUsername=$userEmail`'>$last_name</td>
+      <td onclick='location.href=`friend-profile.php?friendUsername=$userEmail`'>$bio</td>
+    </tr>
+    ";
+
+    $followersDisplay = $followersDisplay . $newRow;
+  }
+
+  $followersDisplay = $followersDisplay . "</table>";
+
+  $followingDisplay = "You currently are not following anyone!";
+  if(count($following) > 0){
+    // Format 
+  $followingDisplay = "
+  <table class='table table-striped table-hover table-bordered'>
+    <tr>
+      <th>First Name</th>
+      <th>Last Name</th>
+      <th>Bio</th>
+    </tr>
+  ";
+  }
+  for ($i = 0; $i < count($following); $i++) {
+    $currentUser = $following[$i];
+    $userEmail = $currentUser['user_email'];
+    $first_name = $currentUser['first_name'];
+    $last_name = $currentUser['last_name'];
+    $bio = $currentUser['bio'];
+    $newRow = "
+    <tr>
+      <td onclick='location.href=`friend-profile.php?friendUsername=$userEmail`'>$first_name</td>
+      <td onclick='location.href=`friend-profile.php?friendUsername=$userEmail`'>$last_name</td>
+      <td onclick='location.href=`friend-profile.php?friendUsername=$userEmail`'>$bio</td>
+    </tr>
+    ";
+
+    $followingDisplay = $followingDisplay . $newRow;
+  }
+
+  $followingDisplay = $followingDisplay . "</table>";
+
+
   // General display table gets changed when toggles
   $guidesDisplay = $myGuidesDisplay;
+  $followDisplay = $followingDisplay;
 
 
   if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -135,6 +203,12 @@
     }
     if (isset($_POST['actionBtn']) && ($_POST['actionBtn']) == "Recently Viewed") {
       $guidesDisplay = $rvGuidesDisplay;
+    }
+    if (isset($_POST['followBtn']) && ($_POST['followBtn']) == "Followers") {
+      $followDisplay = $followersDisplay;
+    }
+    if (isset($_POST['followBtn']) && ($_POST['followBtn']) == "Following") {
+      $followDisplay = $followingDisplay;
     }
   }
   ?>
@@ -174,7 +248,7 @@
     <div class="container-fluid text-center">
       <br>
       <h3><?php echo $firstName?> <?php echo $lastName?></h2>
-      <p><b>Bio: </b><?php echo $bio?></p>
+      <p><?php echo $bio?></p>
       <div class="container-fluid text-center">
         <a href="edit-profile.php" class="btn btn-info" role="button">Edit Profile</a>
       </div>
@@ -192,8 +266,19 @@
         </form>
       </div>
     </div><br>
-    
     <div class='container text-center' style='overflow-y: scroll; height: 60vh;'>
       <?php echo $guidesDisplay?>
+    </div><br>
+
+    <div class="container-fluid text-center">
+        <form name="toggleFollowForm" action="<?php $_SERVER['PHP_SELF'] ?>" method="post">
+          <div class="btn-group text-center" role="group" aria-label="Follow toggle">
+            <input type="submit" class="btn btn-secondary" name="followBtn" value="Followers">
+            <input type="submit" class="btn btn-secondary" name="followBtn" value="Following">
+          </div>
+        </form>
+    </div>
+    <div class='container text-center' style='overflow-y: scroll; height: 60vh;'>
+      <?php echo $followDisplay?>
     </div>
 </body>

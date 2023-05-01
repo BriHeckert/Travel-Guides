@@ -107,7 +107,7 @@ function getFilteredGuidesWithDuration($sort, $order, $duration) {
   return $guides;
 }
 
-function followUserpt1($username, $friendName) {
+function followUser($username, $friendName) {
   global $db;
   $query = 'insert into following values (:user_email, :followed_user_email)';
   $statement = $db->prepare($query);
@@ -141,16 +141,6 @@ function unfollowUser($username, $friendName) {
   $statement->bindValue(':username', $username);
   $statement->execute();
   $statement->closeCursor();
-}
-
-function getFollowing($username) {
-  global $db;
-  $query = 'select followed_user_email from following where user_email=:username';
-  $statement->bindValue(':username', $username);
-  $statement->execute();
-  $following = $statement->fetchAll();
-  $statement->closeCursor();
-  return $following;
 }
 
 function getUserGuides($username) {
@@ -396,5 +386,27 @@ function checkRecentlyViewed($username, $guide_id) {
     return False;
   }
   return True;
+}
+
+function getFollowers($username) {
+  global $db;
+  $query = 'SELECT U.user_email, U.first_name, U.last_name, U.bio FROM users as U, followers as F WHERE F.user_email=:username and F.follower_user_email=U.user_email';
+  $statement = $db->prepare($query);
+  $statement->bindValue(':username', $username);
+  $statement->execute();
+  $followers = $statement->fetchAll();
+  $statement->closeCursor();
+  return $followers;
+}
+
+function getFollowing($username) {
+  global $db;
+  $query = 'select U.user_email, U.first_name, U.last_name, U.bio from users as U, following as F where F.user_email=:username and F.followed_user_email=U.user_email';
+  $statement = $db->prepare($query);
+  $statement->bindValue(':username', $username);
+  $statement->execute();
+  $following = $statement->fetchAll();
+  $statement->closeCursor();
+  return $following;
 }
 ?>
