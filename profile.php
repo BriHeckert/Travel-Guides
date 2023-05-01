@@ -81,14 +81,14 @@
   $savedGuidesDisplay = $savedGuidesDisplay . "</table>";
 
   // General display table gets changed when toggles
-  $guidesDisplay = $myGuidesDisplay;
+  $guidesDisplay = $savedGuidesDisplay;
 
   if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (!empty($_POST['actionBtn']) && ($_POST['actionBtn']) == "My Guides") {
       $guidesDisplay = $myGuidesDisplay;
     }
     else if (!empty($_POST['actionBtn']) && ($_POST['actionBtn']) == "Saved Guides") {
-      $guidesDisplay = $myGuidesDisplay;
+      $guidesDisplay = $savedGuidesDisplay;
     }
   }
   ?>

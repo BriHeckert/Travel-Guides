@@ -87,6 +87,9 @@
       addComment($_SESSION['username'], $gid , $_POST['comment'], date("Y-m-d"));
       $comments = getComments($gid);
     }
+    //else if (!empty($_POST['saveBtn'])) {
+    //  saveGuide();
+    //}
   }
   ?>
 

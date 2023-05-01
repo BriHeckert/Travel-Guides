@@ -278,4 +278,6 @@ function addComment($username, $guide_id, $comment, $time) {
   $statement->execute();
   $statement->closeCursor();
 }
+
+// function saveGuide($username, )
 ?>
