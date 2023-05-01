@@ -89,10 +89,10 @@
       session_destroy();
       header('Location: index.php');
     }
-    if (!empty($_POST['actionBtn']) && ($_POST['actionBtn']) == "My Guides") {
+    if (isset($_POST['actionBtn']) && ($_POST['actionBtn']) == "My Guides") {
       $guidesDisplay = $myGuidesDisplay;
     }
-    else if (!empty($_POST['actionBtn']) && ($_POST['actionBtn']) == "Saved Guides") {
+    if (isset($_POST['actionBtn']) && ($_POST['actionBtn']) == "Saved Guides") {
       $guidesDisplay = $savedGuidesDisplay;
     }
   }
@@ -134,21 +134,20 @@
       <br>
       <h3><?php echo $firstName?> <?php echo $lastName?></h2>
       <p><b>Bio: </b><?php echo $bio?></p>
-      <div class="container-fluid text-center row">
-        <div class="col text-end">
+      <div class="container-fluid text-center">
         <a href="edit-profile.php" class="btn btn-info" role="button">Edit Profile</a>
-        </div>
-        <div class="col text-start">
+      </div>
         <form action="<?php $_SERVER['PHP_SELF'] ?>" method="post">
           <input type="submit" class="btn btn-danger" name="logOutBtn" value="Log Out"></input>
         </form>
-        </div>
-      </div><br>
+      <br>
       <div class="container-fluid text-center">
-        <div class="btn-group" role="group" aria-label="Profile guides toggle">
-          <input type="submit" class="btn btn-primary" name="actionBtn" value="My Guides">
-          <input type="submit" class="btn btn-primary" name="actionBtn" value="Saved Guides">
-        </div>
+        <form name="toggleForm" action="<?php $_SERVER['PHP_SELF'] ?>" method="post">
+          <div class="btn-group text-center" role="group" aria-label="Profile guides toggle">
+            <input type="submit" class="btn btn-primary" name="actionBtn" value="My Guides">
+            <input type="submit" class="btn btn-primary" name="actionBtn" value="Saved Guides">
+          </div>
+        </form>
       </div>
     </div><br>
     
