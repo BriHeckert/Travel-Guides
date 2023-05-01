@@ -62,7 +62,7 @@
   ";
 
   for ($i = 0; $i < count($savedGuides); $i++) {
-    $currentGuide = $savedGuides[$i];
+    $currentGuide = getGuideDetails($savedGuides[$i]['g_id']);
     $title = $currentGuide['title'];
     $desc = $currentGuide['description'];
     $date = $currentGuide['date'];
@@ -83,7 +83,12 @@
   // General display table gets changed when toggles
   $guidesDisplay = $myGuidesDisplay;
 
+
   if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    if (isset($_POST['logOutBtn'])){
+      session_destroy();
+      header('Location: index.php');
+    }
     if (!empty($_POST['actionBtn']) && ($_POST['actionBtn']) == "My Guides") {
       $guidesDisplay = $myGuidesDisplay;
     }
@@ -118,7 +123,7 @@
           </div>
           <div class='col'>
           <a class="text-dark" href="create-guide.php"><button class="btn btn-dark btn-sm btn-block">Create Guide</button></a>
-        </div>
+          </div>
         </div>
       </div>
     </div>
@@ -129,8 +134,15 @@
       <br>
       <h3><?php echo $firstName?> <?php echo $lastName?></h2>
       <p><b>Bio: </b><?php echo $bio?></p>
-      <div class="container-fluid text-center">
+      <div class="container-fluid text-center row">
+        <div class="col text-end">
         <a href="edit-profile.php" class="btn btn-info" role="button">Edit Profile</a>
+        </div>
+        <div class="col text-start">
+        <form action="<?php $_SERVER['PHP_SELF'] ?>" method="post">
+          <input type="submit" class="btn btn-danger" name="logOutBtn" value="Log Out"></input>
+        </form>
+        </div>
       </div><br>
       <div class="container-fluid text-center">
         <div class="btn-group" role="group" aria-label="Profile guides toggle">

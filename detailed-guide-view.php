@@ -103,6 +103,7 @@
       saveGuide($_SESSION['username'], $gid);
     }
   }
+
   ?>
 
 <body>

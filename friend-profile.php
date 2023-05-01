@@ -16,13 +16,11 @@
     header('Location: index.php');
   }
 
+  $friendEmail = $_GET['friendUsername'];
   $friendName = getName($friendEmail);
   $friendLastName = getLastName($friendEmail);
   $friendBio = getBio($friendEmail);
-  $friendGuides = getUserGuides($friendEmail); // NEED TO FIGURE OUT HOW TO GET THIS
-  $isFollowing = getFollowing($_SESSION['username']); 
-  // was going to use this to see what to set the toggle buttons as... 
-  // making sure friendEmail exists in this list would mean make button on following for now
+  $friendGuides = getUserGuides($friendEmail);
 
   $guidesHTML = "
   <table class='table table-striped table-hover table-bordered'>
@@ -38,11 +36,12 @@
     $title = $currentGuide['title'];
     $desc = $currentGuide['description'];
     $date = $currentGuide['date'];
+    $gid = $currentGuide['g_id'];
     $newRow = "
     <tr>
-      <td>$title</td>
-      <td>$desc</td>
-      <td>$date</td>
+      <td onclick='location.href=`detailed-guide-view.php?gid=$gid`'>$title</td>
+      <td onclick='location.href=`detailed-guide-view.php?gid=$gid`'>$desc</td>
+      <td onclick='location.href=`detailed-guide-view.php?gid=$gid`'>$date</td>
     </tr>
     ";
 
@@ -54,12 +53,10 @@
   # still need to change that that the toggle says like "following" / "not following" when the input is clicked
   if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (!empty($_POST['actionBtn']) && ($_POST['actionBtn'] == "Follow")) {
-      followUserpt1($_SESSION['username'], $friendEmail);
-      followUserpt2($friendEmail, $_SESSION['username']);
+      followUser($_SESSION['username'], $friendEmail);
     }
     else if (!empty($_POST['actionBtn']) && ($_POST['actionBtn'] == "Unfollow")) {
-      unfollowUserpt1($_SESSION['username'], $friendEmail);
-      unfollowUserpt2($friendEmail, $_SESSION['username']);
+      unfollowUser($_SESSION['username'], $friendEmail);
     }
   }
   ?>
