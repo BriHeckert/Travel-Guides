@@ -72,7 +72,7 @@ function updateProfile($username, $firstName, $lastName, $bio){
   $statement->closeCursor();
 }
   
-function getGuides() { // Eventually will add filters as params
+function getAllGuides() {
   global $db;
   $query = 'SELECT * FROM guides;';
   $statement = $db->prepare($query);
@@ -80,6 +80,31 @@ function getGuides() { // Eventually will add filters as params
   $allGuides = $statement->fetchAll();
   $statement->closeCursor();
   return $allGuides;
+}
+
+function getFilteredGuides($sort, $order) {
+  global $db;
+  $query = 'SELECT * FROM guides ORDER BY :sort :order';
+  $statement = $db->prepare($query);
+  $statement->bindValue(':sort', $sort);
+  $statement->bindValue(':order', $order);
+  $statement->execute();
+  $guides = $statement->fetchAll();
+  $statement->closeCursor();
+  return $guides;
+}
+
+function getFilteredGuidesWithDuration($sort, $order, $duration) {
+  global $db;
+  $query = 'SELECT * FROM guides WHERE duration = :duration ORDER BY :sort :order';
+  $statement = $db->prepare($query);
+  $statement->bindValue(':duration', $duration);
+  $statement->bindValue(':sort', $sort);
+  $statement->bindValue(':order', $order);
+  $statement->execute();
+  $guides = $statement->fetchAll();
+  $statement->closeCursor();
+  return $guides;
 }
 
 function followUserpt1($username, $friendName) {
