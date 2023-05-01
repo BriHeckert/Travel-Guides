@@ -30,10 +30,10 @@
   if ($_SERVER['REQUEST_METHOD'] == 'POST'){
     if (isset($_POST["publishBtn"]) && $guide['user_email'] == $_SESSION['username']) {
       $title = trim($_POST['gtitle']);
-      $city = trim($_POST['gcity']);
-      $state = trim($_POST['gstate']);
+      $city = $_POST['gcity'];
+      $state = $_POST['gstate'];
       $location = $city . ", " . $state;
-      $desc = trim($_POST['gdescription']);
+      $desc = $_POST['gdescription'];
       $today = date("Y-m-d");
       editGuide($gid, $title, $today, $desc, $location, $old_days, $_SESSION['username']);
       foreach($activities as $activity){
