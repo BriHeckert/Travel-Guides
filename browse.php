@@ -109,7 +109,7 @@
       <td>
         <form name="searchForm" action="<?php $_SERVER['PHP_SELF'] ?>" method="post">
           <div class="input-group" style='width: 30vw'>
-            <input class="form-control" type="search" placeholder="Search locations" id="loc" name="loc" aria-label="Search">
+            <input class="form-control" type="search" placeholder="Search locations by City, State" id="loc" name="loc" aria-label="Search">
             <input type="submit" class="btn btn-primary" name="searchLoc" value="Search"></input>
           </div>
         </form>
