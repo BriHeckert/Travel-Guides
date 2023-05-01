@@ -23,7 +23,7 @@
   $savedGuides = getSavedGuides($_SESSION['username']);
 
   // Format my guides table
-  $guidesHTML = "
+  $myGuidesDisplay = "
   <table class='table table-striped table-hover table-bordered'>
     <tr>
       <th>Guide</th>
@@ -32,50 +32,78 @@
     </tr>
   ";
 
+  for ($i = 0; $i < count($myGuides); $i++) {
+    $currentGuide = $myGuides[$i];
+    $title = $currentGuide['title'];
+    $desc = $currentGuide['description'];
+    $date = $currentGuide['date'];
+    $gid = $currentGuide['g_id'];
+    $newRow = "
+    <tr>
+      <td onclick='location.href=`detailed-guide-view.php?gid=$gid`'>$title</td>
+      <td onclick='location.href=`detailed-guide-view.php?gid=$gid`'>$desc</td>
+      <td onclick='location.href=`detailed-guide-view.php?gid=$gid`'>$date</td>
+    </tr>
+    ";
+
+    $myGuidesDisplay = $myGuidesDisplay . $newRow;
+  }
+
+  $myGuidesDisplay = $myGuidesDisplay . "</table>";
+
+  // Format saved guides
+  $savedGuidesDisplay = "
+  <table class='table table-striped table-hover table-bordered'>
+    <tr>
+      <th>Guide</th>
+      <th>Description</th>
+      <th>Date Created</th>
+    </tr>
+  ";
+
+  for ($i = 0; $i < count($savedGuides); $i++) {
+    $currentGuide = getGuideDetails($savedGuides[$i]['g_id']);
+    $title = $currentGuide['title'];
+    $desc = $currentGuide['description'];
+    $date = $currentGuide['date'];
+    $gid = $currentGuide['g_id'];
+    $newRow = "
+    <tr>
+      <td onclick='location.href=`detailed-guide-view.php?gid=$gid`'>$title</td>
+      <td onclick='location.href=`detailed-guide-view.php?gid=$gid`'>$desc</td>
+      <td onclick='location.href=`detailed-guide-view.php?gid=$gid`'>$date</td>
+    </tr>
+    ";
+
+    $savedGuidesDisplay = $savedGuidesDisplay . $newRow;
+  }
+
+  $savedGuidesDisplay = $savedGuidesDisplay . "</table>";
+
+  // General display table gets changed when toggles
+  $guidesDisplay = $myGuidesDisplay;
+
+
   if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    if (isset($_POST['logOutBtn'])){
+      session_destroy();
+      header('Location: index.php');
+    }
     if (!empty($_POST['actionBtn']) && ($_POST['actionBtn']) == "My Guides") {
-      for ($i = 0; $i < count($myGuides); $i++) {
-        $currentGuide = $myGuides[$i];
-        $title = $currentGuide['title'];
-        $desc = $currentGuide['description'];
-        $date = $currentGuide['date'];
-        $newRow = "
-        <tr>
-          <td>$title</td>
-          <td>$desc</td>
-          <td>$date</td>
-        </tr>
-        ";
-        $guidesHTML = $guidesHTML . $newRow;
-      }
-      $guidesHTML = $guidesHTML . "</table>";
+      $guidesDisplay = $myGuidesDisplay;
     }
     else if (!empty($_POST['actionBtn']) && ($_POST['actionBtn']) == "Saved Guides") {
-      for ($i = 0; $i < count($savedGuides); $i++) {
-        $currentGuide = $savedGuides[$i];
-        $title = $currentGuide['title'];
-        $desc = $currentGuide['description'];
-        $date = $currentGuide['date'];
-        $newRow = "
-        <tr>
-          <td>$title</td>
-          <td>$desc</td>
-          <td>$date</td>
-        </tr>
-        ";
-        $guidesHTML = $guidesHTML . $newRow;
-      }
-      $guidesHTML = $guidesHTML . "</table>";
+      $guidesDisplay = $savedGuidesDisplay;
     }
   }
   ?>
 
 <body>
   <!-- navbar stuff -->
-  <nav class="navbar navbar-expand-lg navbar-light justify-content-between" style="background-color: #e3f2fd;">
-    <div class="container">
+  <nav class="navbar navbar-expand-lg navbar-light justify-content-between d-flex align-items-center" style="background-color: #e3f2fd;">
+    <div class="container d-flex align-items-center">
       <div class="col">
-        <a class="navbar-brand">Travel Buddy</a>
+        <a class="navbar-brand" href="browse.php">Travel Buddy</a>
       </div>
       <div class="col">
         <form class="form-inline my-2 my-lg-0">
@@ -85,13 +113,16 @@
           </div>
         </form>
       </div>
-      <div class="col">
-        <div class="row">
+      <div class="col container d-flex text-end justify-content-end">
+        <div class="row d-flex align-items-center justify-content-end">
           <div class="col  text-end">
-            <a class="nav-link text-danger text-dark" href="browse.php">Home</a>
+            <a class="nav-link text-dark" href="browse.php">Home</a>
           </div>
           <div class="col text-start">
-            <a class="nav-link text-danger text-dark" href="profile.php">My Profile</a>
+            <a class="nav-link text-dark" href="profile.php">Profile</a>
+          </div>
+          <div class='col'>
+          <a class="text-dark" href="create-guide.php"><button class="btn btn-dark btn-sm btn-block">Create Guide</button></a>
           </div>
         </div>
       </div>
@@ -103,8 +134,15 @@
       <br>
       <h3><?php echo $firstName?> <?php echo $lastName?></h2>
       <p><b>Bio: </b><?php echo $bio?></p>
-      <div class="container-fluid text-center">
+      <div class="container-fluid text-center row">
+        <div class="col text-end">
         <a href="edit-profile.php" class="btn btn-info" role="button">Edit Profile</a>
+        </div>
+        <div class="col text-start">
+        <form action="<?php $_SERVER['PHP_SELF'] ?>" method="post">
+          <input type="submit" class="btn btn-danger" name="logOutBtn" value="Log Out"></input>
+        </form>
+        </div>
       </div><br>
       <div class="container-fluid text-center">
         <div class="btn-group" role="group" aria-label="Profile guides toggle">
@@ -115,6 +153,6 @@
     </div><br>
     
     <div class='container' style='overflow-y: scroll; height: 60vh;'>
-      <?php echo $guidesHTML?>
+      <?php echo $guidesDisplay?>
     </div>
 </body>

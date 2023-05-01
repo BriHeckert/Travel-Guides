@@ -74,7 +74,7 @@ function updateProfile($username, $firstName, $lastName, $bio){
   
 function getAllGuides() {
   global $db;
-  $query = 'SELECT * FROM guides;';
+  $query = 'SELECT * FROM guides';
   $statement = $db->prepare($query);
   $statement->execute();
   $allGuides = $statement->fetchAll();
@@ -115,9 +115,7 @@ function followUserpt1($username, $friendName) {
   $statement->bindValue(':followed_user_email', $friendName);
   $statement->execute();
   $statement->closeCursor();
-}
 
-function followUserpt2($friendName, $username) {
   global $db;
   $query = 'insert into followers values (:user_email, :follower_user_email)';
   $statement = $db->prepare($query);
@@ -127,7 +125,7 @@ function followUserpt2($friendName, $username) {
   $statement->closeCursor();
 }
 
-function unfollowUserpt1($username, $friendName) {
+function unfollowUser($username, $friendName) {
   global $db;
   $query = 'delete from following where user_email=:username and followed_user_email=:friendName';
   $statement = $db->prepare($query);
@@ -135,9 +133,7 @@ function unfollowUserpt1($username, $friendName) {
   $statement->bindValue(':friendName', $friendName);
   $statement->execute();
   $statement->closeCursor();
-}
 
-function unfollowUserpt2($friendName, $username) {
   global $db;
   $query = 'delete from followers where user_email=:friendName and follower_user_email=:username';
   $statement = $db->prepare($query);
@@ -147,7 +143,7 @@ function unfollowUserpt2($friendName, $username) {
   $statement->closeCursor();
 }
 
-function getifFollowing($username) {
+function getFollowing($username) {
   global $db;
   $query = 'select followed_user_email from following where user_email=:username';
   $statement->bindValue(':username', $username);
@@ -159,7 +155,7 @@ function getifFollowing($username) {
 
 function getUserGuides($username) {
   global $db;
-  $query = 'SELECT * FROM guides WHERE user_email=:username;';
+  $query = 'SELECT * FROM guides WHERE user_email=:username';
   $statement = $db->prepare($query);
   $statement->bindValue(':username', $username);
   $statement->execute();
@@ -170,7 +166,7 @@ function getUserGuides($username) {
 
 function getSavedGuides($username) {
   global $db;
-  $query = 'SELECT * FROM user_saved WHERE user_email=:username;';
+  $query = 'SELECT * FROM user_saved WHERE user_email=:username';
   $statement = $db->prepare($query);
   $statement->bindValue(':username', $username);
   $statement->execute();
@@ -181,7 +177,7 @@ function getSavedGuides($username) {
 
 function getGuideDetails($gid) {
   global $db;
-  $query = 'SELECT * FROM guides WHERE g_id=:gid;';
+  $query = 'SELECT * FROM guides WHERE g_id=:gid';
   $statement = $db->prepare($query);
   $statement->bindValue(':gid', $gid);
   $statement->execute();
@@ -193,7 +189,7 @@ function getGuideDetails($gid) {
 function getGuideActivities($gid) {
   $actList = [];
   global $db;
-  $query = 'SELECT * FROM guide_includes WHERE g_id=:gid;';
+  $query = 'SELECT * FROM guide_includes WHERE g_id=:gid';
   $statement = $db->prepare($query);
   $statement->bindValue(':gid', $gid);
   $statement->execute();
@@ -202,7 +198,7 @@ function getGuideActivities($gid) {
 
   foreach($activityIds as $id){
     global $db;
-    $query = 'SELECT * FROM activities WHERE act_id=:id;';
+    $query = 'SELECT * FROM activities WHERE act_id=:id';
     $statement = $db->prepare($query);
     $statement->bindValue(':id', $id['act_id']);
     $statement->execute();
@@ -211,5 +207,157 @@ function getGuideActivities($gid) {
     array_push($actList, $activity);
   }
   return $actList;
+}
+
+function createGuide($g_id, $title, $date, $description, $location, $duration, $user_email){
+  global $db;
+  $query = "insert into guides values (:g_id, :title, :date, :description, :location, :duration, :user_email)";
+  $statement = $db->prepare($query);
+  $statement->bindValue(':g_id', $g_id);
+  $statement->bindValue(':title', $title);
+  $statement->bindValue(':date', $date);
+  $statement->bindValue(':description', $description);
+  $statement->bindValue(':location', $location);
+  $statement->bindValue(':duration', $duration);
+  $statement->bindValue(':user_email', $user_email);
+  $statement->execute();
+  $statement->closeCursor();
+}
+
+function createActivity($g_id, $act_id, $title, $description, $address){
+  global $db;
+  $query = "insert into activities values (:act_id, :title, :description, :address)";
+  $statement = $db->prepare($query);
+  $statement->bindValue(':act_id', $act_id);
+  $statement->bindValue(':title', $title);
+  $statement->bindValue(':description', $description);
+  $statement->bindValue(':address', $address);
+  $statement->execute();
+  $statement->closeCursor();
+
+  global $db;
+  $query = "insert into guide_includes values (:g_id, :act_id)";
+  $statement = $db->prepare($query);
+  $statement->bindValue(':g_id', $g_id);
+  $statement->bindValue(':act_id', $act_id);
+  $statement->execute();
+  $statement->closeCursor();
+}
+
+function deleteGuide($g_id){
+  global $db;
+  $query = "delete from guides where g_id=:guide";
+  $statement = $db->prepare($query);
+  $statement->bindValue(':guide', $g_id);
+  $statement->execute();
+  $statement->closeCursor();
+
+  $actList = getGuideActivities($g_id);
+  foreach($actList as $activity){
+    deleteActivity($activity);
+  }
+
+  global $db;
+  $query = "delete from guide_includes where g_id=:guide";
+  $statement = $db->prepare($query);
+  $statement->bindValue(':guide', $g_id);
+  $statement->execute();
+  $statement->closeCursor();
+}
+
+function deleteActivity($act_id){
+  global $db;
+  $query = "delete from activities where act_id=:activity";
+  $statement = $db->prepare($query);
+  $statement->bindValue(':activity', $act_id);
+  $statement->execute();
+  $statement->closeCursor();
+
+  global $db;
+  $query = "delete from guide_includes where act_id=:activity";
+  $statement = $db->prepare($query);
+  $statement->bindValue(':activity', $act_id);
+  $statement->execute();
+  $statement->closeCursor();
+}
+
+function getComments($guide_id) {
+  global $db;
+  $query = 'SELECT C.user_email, C.text, C.timestamp FROM comments as C WHERE C.g_id=:guide_id';
+  $statement = $db->prepare($query);
+  $statement->bindValue(':guide_id', $guide_id);
+  $statement->execute();
+  $comments = $statement->fetchAll();
+  $statement->closeCursor();
+  return $comments;
+}
+
+function addComment($username, $guide_id, $comment, $time) {
+  global $db;
+  $query = 'insert into comments values (:username, :guide_id, :comment, :time)';
+  $statement = $db->prepare($query);
+  $statement->bindValue(':username', $username);
+  $statement->bindValue(':guide_id', $guide_id);
+  $statement->bindValue(':comment', $comment);
+  $statement->bindValue(':time', $time);
+  $statement->execute();
+  $statement->closeCursor();
+}
+
+function getRating($g_id) {
+  global $db;
+  $query = 'SELECT rate FROM ratings WHERE g_id=:guide_id';
+  $statement = $db->prepare($query);
+  $statement->bindValue(':guide_id', $g_id);
+  $statement->execute();
+  $ratings = $statement->fetchAll();
+  $statement->closeCursor();
+
+  $total = 0.0;
+
+  foreach($ratings as $rate){
+    $total += $rate['rate'];
+  }
+  if (count($ratings) == 0){
+    return "N/A";
+  }
+  $total = $total / count($ratings);
+  return $total;
+}
+
+function checkRated($g_id, $user_email) {
+  global $db;
+  $query = 'SELECT count(*) FROM ratings WHERE g_id=:guide_id and user_email=:email';
+  $statement = $db->prepare($query);
+  $statement->bindValue(':guide_id', $g_id);
+  $statement->bindValue(':email', $user_email);
+  $statement->execute();
+  $ratings = $statement->fetch();
+  $statement->closeCursor();
+  if ($ratings["count(*)"] != 0){
+    return False;
+  }
+  return True;
+}
+
+function leaveRating($g_id, $user_email, $rate){
+  global $db;
+  $query = 'insert into ratings values (:g_id, :user_email, :rate)';
+  $statement = $db->prepare($query);
+  $statement->bindValue(':g_id', $g_id);
+  $statement->bindValue(':user_email', $user_email);
+  $statement->bindValue(':rate', $rate);
+  $statement->execute();
+  $statement->closeCursor();
+}
+
+function saveGuide($username, $guide_id) {
+  global $db;
+  $query = 'insert into user_saved values (:username, :guide_id)';
+  $statement = $db->prepare($query);
+  $statement->bindValue(':username', $username);
+  $statement->bindValue(':guide_id', $guide_id);
+  $statement->execute();
+  $statement->closeCursor();
 }
 ?>
