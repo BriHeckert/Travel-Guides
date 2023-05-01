@@ -278,4 +278,51 @@ function addComment($username, $guide_id, $comment, $time) {
   $statement->execute();
   $statement->closeCursor();
 }
+
+function getRating($g_id) {
+  global $db;
+  $query = 'SELECT rate FROM ratings WHERE g_id=:guide_id';
+  $statement = $db->prepare($query);
+  $statement->bindValue(':guide_id', $g_id);
+  $statement->execute();
+  $ratings = $statement->fetchAll();
+  $statement->closeCursor();
+
+  $total = 0.0;
+
+  foreach($ratings as $rate){
+    $total += $rate['rate'];
+  }
+  if (count($ratings) == 0){
+    return "N/A";
+  }
+  $total = $total / count($ratings);
+  return $total;
+}
+
+function checkRated($g_id, $user_email) {
+  global $db;
+  $query = 'SELECT count(*) FROM ratings WHERE g_id=:guide_id and user_email=:email';
+  $statement = $db->prepare($query);
+  $statement->bindValue(':guide_id', $g_id);
+  $statement->bindValue(':email', $user_email);
+  $statement->execute();
+  $ratings = $statement->fetch();
+  $statement->closeCursor();
+  if ($ratings["count(*)"] != 0){
+    return False;
+  }
+  return True;
+}
+
+function leaveRating($g_id, $user_email, $rate){
+  global $db;
+  $query = 'insert into ratings values (:g_id, :user_email, :rate)';
+  $statement = $db->prepare($query);
+  $statement->bindValue(':g_id', $g_id);
+  $statement->bindValue(':user_email', $user_email);
+  $statement->bindValue(':rate', $rate);
+  $statement->execute();
+  $statement->closeCursor();
+}
 ?>

@@ -18,6 +18,7 @@
 
   $firstName = getName($_SESSION['username']);
   $gid = $_GET['gid'];
+  $rating = getRating($gid);
 
   $guide = getGuideDetails($gid);
   $activities = getGuideActivities($gid);
@@ -66,7 +67,7 @@
 
   for ($i = 0; $i < count($comments); $i++) {
     $comment = $comments[$i];
-    $user = $comment['user_email'];
+    $user = getName($comment['user_email']) . " " . getLastName($comment['user_email']);
     $text = $comment['text'];
     $time = $comment['timestamp'];
     $newRow = "
@@ -90,7 +91,14 @@
     if (!empty($_POST['commentBtn'])) {
       addComment($_SESSION['username'], $gid , $_POST['comment'], date("Y-m-d"));
       $comments = getComments($gid);
+      header('Location: detailed-guide-view.php?gid='.$gid);
     }
+    if (isset($_POST['ratingBtn'])){
+      if (checkRated($gid,  $_SESSION['username'])){
+        leaveRating($gid, $_SESSION['username'], trim($_POST['rating']));
+      }
+      header('Location: detailed-guide-view.php?gid='.$gid);
+  }
   }
   ?>
 
@@ -140,6 +148,19 @@
     <h1><?php echo $title?></h1>
     <p class='fw-bold'><?php echo $location?></p>
     <p>By: <?php echo $author?></p>
+    <p> Rating: <?php echo $rating?></p>
+    <form name="ratingForm" action="<?php $_SERVER['PHP_SELF'] ?>" method="post">
+          <div class="form-group col">
+            <select class="custom-select form-control-sm" name="rating">
+              <option selected>Rate</option>
+              <option value=5>5</option>
+              <option value=4>4</option>
+              <option value=3>3</option>
+              <option value=2>2</option>
+              <option value=1>1</option>
+            <input type="submit" class="btn btn-primary btn-block btn-sm" name="ratingBtn" value="Save"></input>
+          </div>
+        </form>
     <hr/>
     <div class='pt-4'>
       <h4>Description:</h4>
