@@ -22,11 +22,15 @@
   $guides = [];
 
   if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    if (!empty($_POST['searchLoc'])) {
+    if (!empty($_POST['search']) && (!empty($_POST['loc'])) && (isset($_POST['duration']) and $_POST['duration'] != 'na')) {
       $loc = trim($_POST['loc']);
-      $guides = getLocationSearched($loc);
-    } else if (isset($_POST['duration']) and $_POST['duration'] != 'na') {
+      $dur = $_POST['duration'];
+      $guides = getGuidesWithLocDur($loc, $dur);
+    } else if (!empty($_POST['search']) && (isset($_POST['duration']) and $_POST['duration'] != 'na')) {
       $guides = getGuidesWithDuration($_POST['duration']);
+    } else if (!empty($_POST['search']) && (!empty($_POST['loc']))) {
+      $loc = trim($_POST['loc']);
+      $guides = getGuidesWithLocation($loc);
     } else {
       $guides = getAllGuides();
     }
@@ -108,43 +112,22 @@
     <table style="width: 80vw">
       <td>
         <form name="searchForm" action="<?php $_SERVER['PHP_SELF'] ?>" method="post">
-          <div class="input-group" style='width: 30vw'>
+          <div class="input-group" style='width: 60vw'>
             <input class="form-control" type="search" placeholder="Search locations by City, State" id="loc" name="loc" aria-label="Search">
-            <input type="submit" class="btn btn-primary" name="searchLoc" value="Search"></input>
+            <select id='guidelength' name='duration' required>
+              <option value='na' selected disabled>Select Duration</option>
+              <option value='1'>1 Day</option>
+              <option value='2'>2 Days</option>
+              <option value='3'>3 Days</option>
+              <option value='4'>4 Days</option>
+              <option value='5'>5 Days</option>
+              <option value='6'>6 Days</option>
+              <option value='7'>7 Days</option>
+            </select>
+            <input type="submit" class="btn btn-primary" name="search" value="Search"></input>
+            <input type="submit" class="btn btn-primary" name="clear" value="Clear Filters"></input>
           </div>
         </form>
-      </td>
-
-      <form method='post' action='browse.php'>
-      
-      <td>
-        <b>Filter:</b>
-      </td>
-
-      <td>
-          Duration:
-          <select id='guidelength' name='duration' required>
-            <option value='na' selected disabled>Select</option>
-            <option value='1'>1 Day</option>
-            <option value='2'>2 Days</option>
-            <option value='3'>3 Days</option>
-            <option value='4'>4 Days</option>
-            <option value='5'>5 Days</option>
-            <option value='6'>6 Days</option>
-            <option value='7'>7 Days</option>
-          </select>
-      </td>
-
-      <td>
-          <input type='submit' value="Filter">
-      </td>
-
-      </form>
-      <td>
-        <form>
-          <input type='submit' value='Reset'>
-        </form>
-      </td>
     </table>
   </div>
 
