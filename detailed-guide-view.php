@@ -21,8 +21,10 @@
   $rating = getRating($gid);
   $today = date("Y-m-d");
 
-  addToRecentlyViewed($_SESSION['username'], $gid, $today);
-
+  if (checkRecentlyViewed($_SESSION['username'], $gid) == False) {
+    addToRecentlyViewed($_SESSION['username'], $gid, $today);
+  }
+  
   $guide = getGuideDetails($gid);
   $activities = getGuideActivities($gid);
   $comments = getComments($gid);

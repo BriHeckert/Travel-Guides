@@ -78,7 +78,7 @@
           </div>
         </form>
 
-        <a href='profile.php' class='btn btn-danger' style='width: 10vh; align: center'>Cancel</a>
+        <a href='profile.php' class='btn btn-danger' style='width: 15vh; align: center'>Cancel</a>
       </center>
     </div>
   </div>

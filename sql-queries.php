@@ -107,7 +107,7 @@ function getFilteredGuidesWithDuration($sort, $order, $duration) {
   return $guides;
 }
 
-function followUserpt1($username, $friendName) {
+function followUser($username, $friendName) {
   global $db;
   $query = 'insert into following values (:user_email, :followed_user_email)';
   $statement = $db->prepare($query);
@@ -143,16 +143,6 @@ function unfollowUser($username, $friendName) {
   $statement->closeCursor();
 }
 
-function getFollowing($username) {
-  global $db;
-  $query = 'select followed_user_email from following where user_email=:username';
-  $statement->bindValue(':username', $username);
-  $statement->execute();
-  $following = $statement->fetchAll();
-  $statement->closeCursor();
-  return $following;
-}
-
 function getUserGuides($username) {
   global $db;
   $query = 'SELECT * FROM guides WHERE user_email=:username';
@@ -173,6 +163,17 @@ function getSavedGuides($username) {
   $savedGuides = $statement->fetchAll();
   $statement->closeCursor();
   return $savedGuides;
+}
+
+function getRVGuides($username) {
+  global $db;
+  $query = 'SELECT * FROM recently_viewed WHERE user_email=:username';
+  $statement = $db->prepare($query);
+  $statement->bindValue(':username', $username);
+  $statement->execute();
+  $rvGuides = $statement->fetchAll();
+  $statement->closeCursor();
+  return $rvGuides;
 }
 
 function getGuideDetails($gid) {
@@ -370,5 +371,42 @@ function addToRecentlyViewed($username, $guide_id, $time) {
   $statement->bindValue(':time', $time);
   $statement->execute();
   $statement->closeCursor();
+}
+
+function checkRecentlyViewed($username, $guide_id) {
+  global $db;
+  $query = 'SELECT count(*) FROM recently_viewed WHERE user_email=:username and g_id=:guide_id';
+  $statement = $db->prepare($query);
+  $statement->bindValue(':username', $username);
+  $statement->bindValue(':guide_id', $guide_id);
+  $statement->execute();
+  $recentlyViewed = $statement->fetch();
+  $statement->closeCursor();
+  if ($recentlyViewed["count(*)"] == 0){
+    return False;
+  }
+  return True;
+}
+
+function getFollowers($username) {
+  global $db;
+  $query = 'SELECT U.user_email, U.first_name, U.last_name, U.bio FROM users as U, followers as F WHERE F.user_email=:username and F.follower_user_email=U.user_email';
+  $statement = $db->prepare($query);
+  $statement->bindValue(':username', $username);
+  $statement->execute();
+  $followers = $statement->fetchAll();
+  $statement->closeCursor();
+  return $followers;
+}
+
+function getFollowing($username) {
+  global $db;
+  $query = 'select U.user_email, U.first_name, U.last_name, U.bio from users as U, following as F where F.user_email=:username and F.followed_user_email=U.user_email';
+  $statement = $db->prepare($query);
+  $statement->bindValue(':username', $username);
+  $statement->execute();
+  $following = $statement->fetchAll();
+  $statement->closeCursor();
+  return $following;
 }
 ?>
