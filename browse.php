@@ -8,13 +8,6 @@
     <title>Browse</title>
   </head>
 
-  <script>
-  function prepareDetailedView($gid){
-    $_SESSION["current-guide"] = $gid;
-    header('Location: detailed-guide-view.php');
-  }
-  </script>
-
 
   <?php 
   require("connect-db.php");
