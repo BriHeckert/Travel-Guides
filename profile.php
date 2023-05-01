@@ -34,7 +34,7 @@
         <th>Guide</th>
         <th>Description</th>
         <th>Date Created</th>
-        <th> </th>
+        <th>Edit your Guide</th>
       </tr>
     ";
   }

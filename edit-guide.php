@@ -105,7 +105,7 @@
   <br>
 
   <div class='container'>
-  <a href='browse.php' style='color: grey'>< Back to Browse</a>
+  <a href='profile.php' style='color: grey'>< Back to Profile</a>
   </div>
 
   <br>
