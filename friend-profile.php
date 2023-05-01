@@ -48,7 +48,7 @@
 
     $guidesHTML = $guidesHTML . $newRow;
   }
-  $guidesHTML = $guidesHTML . "</table>"
+  $guidesHTML = $guidesHTML . "</table>";
 
   # Follow / unfollow
   # still need to change that that the toggle says like "following" / "not following" when the input is clicked
@@ -61,6 +61,7 @@
       unfollowUserpt1($_SESSION['username'], $friendEmail);
       unfollowUserpt2($friendEmail, $_SESSION['username']);
     }
+  }
   ?>
 
 <body>

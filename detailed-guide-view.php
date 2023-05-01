@@ -73,7 +73,7 @@
     <tr>
       <td onclick='location.href=`friend-profile.php?friendUsername=$user`'>$user</td>
       <td>$text</td>
-      <td>$timestamp</td>
+      <td>$time</td>
     </tr>
     ";
 
