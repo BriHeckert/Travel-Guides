@@ -68,14 +68,6 @@
       <div class="col">
         <a class="navbar-brand">TravelGuides</a>
       </div>
-      <div class="col">
-        <form class="form-inline my-2 my-lg-0">
-          <div class="input-group">
-            <input class="form-control mr-lg-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-info my-2 my-sm-0" type="submit">Search</button>
-          </div>
-        </form>
-      </div>
       <div class="col container d-flex text-end justify-content-end">
         <div class="row d-flex align-items-center justify-content-end">
           <div class="col  text-end">

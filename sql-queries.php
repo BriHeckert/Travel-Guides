@@ -107,6 +107,17 @@ function getFilteredGuidesWithDuration($sort, $order, $duration) {
   return $guides;
 }
 
+function getLocationSearched($location) {
+  global $db;
+  $query = 'SELECT * FROM guides WHERE location=:location';
+  $statement = $db->prepare($query);
+  $statement->bindValue(':location', $location);
+  $statement->execute();
+  $guides = $statement->fetchAll();
+  $statement->closeCursor();
+  return $guides;
+}
+
 function followUser($username, $friendName) {
   global $db;
   $query = 'insert into following values (:user_email, :followed_user_email)';
