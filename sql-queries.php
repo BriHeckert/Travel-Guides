@@ -325,4 +325,14 @@ function leaveRating($g_id, $user_email, $rate){
   $statement->execute();
   $statement->closeCursor();
 }
+
+function saveGuide($username, $guide_id) {
+  global $db;
+  $query = 'insert into user_saved values (:username, :guide_id)';
+  $statement = $db->prepare($query);
+  $statement->bindValue(':username', $username);
+  $statement->bindValue(':guide_id', $guide_id);
+  $statement->execute();
+  $statement->closeCursor();
+}
 ?>
