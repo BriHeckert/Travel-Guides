@@ -80,7 +80,11 @@
     $commentsDisplay = $commentsDisplay . $newRow;
   }
 
-  $commentsDisplay = $commentsDisplay . "</table>";
+  if (count($comments) > 0){
+    $commentsDisplay = $commentsDisplay . "</table>";
+  } else {
+    $commentsDisplay = "";
+  }
 
   if ($_SERVER['REQUEST_METHOD'] == 'POST'){
     if (!empty($_POST['commentBtn'])) {
@@ -149,8 +153,11 @@
       <h4>Comments:</h4>
         <?php echo $commentsDisplay;?>
         <form name="commentForm" action="<?php $_SERVER['PHP_SELF'] ?>" method="post">
-          <textarea class="form-control" name="comment" rows="2" placeholder="Leave a Comment Here!"></textarea>
-          <input type="submit" class="btn btn-primary btn-block mb-4" name="commentBtn" value="Comment"></input>
+          <div class="form-group row">
+            <textarea class="form-control" name="comment" rows="2" placeholder="Leave a Comment Here!" required></textarea>
+            <input type="submit" class="btn btn-primary btn-block mb-4 mt-4" name="commentBtn" value="Comment"></input>
+          </div>
+        </form>
     </div>
   </div>
 
