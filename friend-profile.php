@@ -65,7 +65,7 @@
   <nav class="navbar navbar-expand-lg navbar-light justify-content-between" style="background-color: #e3f2fd;">
     <div class="container">
       <div class="col">
-        <a class="navbar-brand">TravelGuides</a>
+        <a class="navbar-brand">Travel Buddy</a>
       </div>
       <div class="col container d-flex text-end justify-content-end">
         <div class="row d-flex align-items-center justify-content-end">

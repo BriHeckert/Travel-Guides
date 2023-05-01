@@ -25,46 +25,51 @@
     if (!empty($_POST['searchLoc'])) {
       $loc = trim($_POST['loc']);
       $guides = getLocationSearched($loc);
-    }
-    if (isset($_POST['duration']) and $_POST['duration'] != 'na') {
-      $guides = getFilteredGuidesWithDuration($_POST['sortby'], $_POST['sortorder'], $_POST['duration']);
-    } // else if (isset($_POST['sortby'])) {
-      // $guides = getFilteredGuides($_POST['sortby'], $_POST['sortorder']);
+    } else if (isset($_POST['duration']) and $_POST['duration'] != 'na') {
+      $guides = getGuidesWithDuration($_POST['duration']);
     } else {
       $guides = getAllGuides();
     }
-
-  // Format guides table
-  $guideHTML = "
-  <table class='table table-striped table-hover table-bordered'>
-    <tr>
-      <th>Guide</th>
-      <th>Location</th>
-      <th>Description</th>
-      <th>Date Created</th>
-    </tr>
-  ";
-
-  for ($i = 0; $i < count($guides); $i++) {
-    $currentGuide = $guides[$i];
-    $title = $currentGuide['title'];
-    $desc = $currentGuide['description'];
-    $loc = $currentGuide['g_id'];
-    $date = $currentGuide['date'];
-    $gid = $currentGuide['g_id'];
-    $newRow = "
-    <tr>
-      <td onclick='location.href=`detailed-guide-view.php?gid=$gid`'>$title</td>
-      <td onclick='location.href=`detailed-guide-view.php?gid=$gid`'>$loc</td>
-      <td onclick='location.href=`detailed-guide-view.php?gid=$gid`'>$desc</td>
-      <td onclick='location.href=`detailed-guide-view.php?gid=$gid`'>$date</td>
-    </tr>
-    ";
-
-    $guideHTML = $guideHTML . $newRow;
+  } else {
+    $guides = getAllGuides();
   }
 
-  $guideHTML = $guideHTML . "</table>";
+  // Format guides table
+  $guideHTML = "<br><br><center>No guides found, please widen your search parameters.</center>";
+
+  if (count($guides) > 0) {
+    $guideHTML = "
+    <div class='container' style='overflow-y: scroll; height: 65vh;'>
+    <table class='table table-striped table-hover table-bordered'>
+      <tr>
+        <th>Guide</th>
+        <th>Location</th>
+        <th>Description</th>
+        <th>Date Created</th>
+      </tr>
+    ";
+
+    for ($i = 0; $i < count($guides); $i++) {
+      $currentGuide = $guides[$i];
+      $title = $currentGuide['title'];
+      $desc = $currentGuide['description'];
+      $loc = $currentGuide['location'];
+      $date = $currentGuide['date'];
+      $gid = $currentGuide['g_id'];
+      $newRow = "
+      <tr>
+        <td onclick='location.href=`detailed-guide-view.php?gid=$gid`'>$title</td>
+        <td onclick='location.href=`detailed-guide-view.php?gid=$gid`'>$loc</td>
+        <td onclick='location.href=`detailed-guide-view.php?gid=$gid`'>$desc</td>
+        <td onclick='location.href=`detailed-guide-view.php?gid=$gid`'>$date</td>
+      </tr>
+      ";
+
+      $guideHTML = $guideHTML . $newRow;
+    }
+
+    $guideHTML = $guideHTML . "</table></div>";
+  }
   ?>
 
 <body>
@@ -96,46 +101,30 @@
 
   <div class='container'>
     <h1>Welcome, <?php echo $firstName?>!</h1>
-    <h3>Check out our available guides or search yourself!</h3>
+    <h4>Check out our available guides:</h4><br>
   </div>
-  <div class="container">
-    <form name="searchForm" action="<?php $_SERVER['PHP_SELF'] ?>" method="post">
-      <div class="input-group">
-        <input class="form-control" type="search" placeholder="EX: City, State" id="loc" name="loc" aria-label="Search">
-        <input type="submit" class="btn btn-primary" name="searchLoc" value="Search"></input>
-      </div>
-    </form>
-  </div>
-  
-  <br>
 
-  <div class='container' align='center'>
-    <form method='post' action='browse.php'>
-      <table style="width: 80vw">
-        <td>
-          <b>Filter by: </b>
-        </td>
+  <div class='container'>
+    <table style="width: 80vw">
+      <td>
+        <form name="searchForm" action="<?php $_SERVER['PHP_SELF'] ?>" method="post">
+          <div class="input-group" style='width: 30vw'>
+            <input class="form-control" type="search" placeholder="Search locations" id="loc" name="loc" aria-label="Search">
+            <input type="submit" class="btn btn-primary" name="searchLoc" value="Search"></input>
+          </div>
+        </form>
+      </td>
 
-        <td>
-          <input type='radio' id='guidename' name='sortby' value='title' required>
-          <label for='guidename'>Guide Title</label>&nbsp&nbsp&nbsp
-          <input type='radio' id='guideloc' name='sortby' value='location' required>
-          <label for='guideloc'>Location</label>&nbsp&nbsp&nbsp
-          <input type='radio' id='guidedate' name='sortby' value='date' required>
-          <label for='guideloc'>Date Created</label>
-        </td>
+      <form method='post' action='browse.php'>
+      
+      <td>
+        <b>Filter:</b>
+      </td>
 
-        <td>
-          <input type='radio' id='orderasc' name='sortorder' value='ASC' required>
-          <label for='guidename'>Ascending Order</label>&nbsp&nbsp&nbsp
-          <input type='radio' id='orderdesc' name='sortorder' value='DESC' required>
-          <label for='guideloc'>Descending Order</label>
-        </td>
-
-        <td>
+      <td>
           Duration:
           <select id='guidelength' name='duration' required>
-            <option value='na'>Select</option>
+            <option value='na' selected disabled>Select</option>
             <option value='1'>1 Day</option>
             <option value='2'>2 Days</option>
             <option value='3'>3 Days</option>
@@ -144,19 +133,22 @@
             <option value='6'>6 Days</option>
             <option value='7'>7 Days</option>
           </select>
-        </td>
+      </td>
 
-        <td>
+      <td>
           <input type='submit' value="Filter">
-        </td>
+      </td>
 
-      </table>
-    </form>
+      </form>
+      <td>
+        <form>
+          <input type='submit' value='Reset'>
+        </form>
+      </td>
+    </table>
   </div>
 
-  <div class='container' style='overflow-y: scroll; height: 65vh;'>
-    <?php echo $guideHTML?>
-  </div>
+  <?php echo $guideHTML?>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
 </body>

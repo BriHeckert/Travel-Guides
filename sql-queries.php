@@ -94,13 +94,11 @@ function getFilteredGuides($sort, $order) {
   return $guides;
 }
 
-function getFilteredGuidesWithDuration($sort, $order, $duration) {
+function getGuidesWithDuration($duration) {
   global $db;
-  $query = 'SELECT * FROM guides WHERE duration = :duration ORDER BY :sort :order';
+  $query = 'SELECT * FROM guides WHERE duration = :duration';
   $statement = $db->prepare($query);
   $statement->bindValue(':duration', $duration);
-  $statement->bindValue(':sort', $sort);
-  $statement->bindValue(':order', $order);
   $statement->execute();
   $guides = $statement->fetchAll();
   $statement->closeCursor();
@@ -109,9 +107,9 @@ function getFilteredGuidesWithDuration($sort, $order, $duration) {
 
 function getLocationSearched($location) {
   global $db;
-  $query = 'SELECT * FROM guides WHERE location=:location';
+  $query = 'SELECT * FROM guides WHERE location LIKE :location';
   $statement = $db->prepare($query);
-  $statement->bindValue(':location', $location);
+  $statement->bindValue(':location', '%' . $location . '%');
   $statement->execute();
   $guides = $statement->fetchAll();
   $statement->closeCursor();
