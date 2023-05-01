@@ -100,9 +100,10 @@
       }
       header('Location: detailed-guide-view.php?gid='.$gid);
     }
-    if (!empty($_POST['saveBtn'])) {
+    if (isset($_POST['saveBtn'])) {
       saveGuide($_SESSION['username'], $gid);
     }
+    header('Location: detailed-guide-view.php?gid='.$gid);
   }
 
   ?>
@@ -149,7 +150,10 @@
   <br>
 
   <div class='container bg-light border border-info p-3' style='overflow-y: scroll;'>
-    <h4 class='text-end'>Created: <?php echo $date?></h3>
+  <h3 class='text-end'>Created: <?php echo $date?></h3>
+    <form action="<?php $_SERVER['PHP_SELF'] ?>" method="post" class='text-end'>
+      <input type="submit" class="btn btn-outline-danger text-end" name="saveBtn" value="Save Guide"></input>
+    </form>
     <h1><?php echo $title?></h1>
     <p class='fw-bold'><?php echo $location?></p>
     <p>By: <?php echo $author?></p>
@@ -166,8 +170,6 @@
             <input type="submit" class="btn btn-primary btn-block btn-sm" name="ratingBtn" value="Submit Rating"></input>
           </div>
         </form>
-    <p>Like this guide? Save it!</p>
-    <input type="submit" class="btn btn-primary btn-block mb-4 mt-4" name="saveBtn" value="Save Guide"></input>
     <hr/>
     <div class='pt-4'>
       <h4>Description:</h4>
