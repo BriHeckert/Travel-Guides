@@ -76,14 +76,17 @@
           </div>
         </form>
       </div>
-      <div class="col">
-        <div class="row">
+      <div class="col container d-flex text-end justify-content-end">
+        <div class="row d-flex align-items-center justify-content-end">
           <div class="col  text-end">
             <a class="nav-link text-danger text-dark" href="browse.php">Home</a>
           </div>
           <div class="col text-start">
             <a class="nav-link text-danger text-dark" href="profile.php">My Profile</a>
           </div>
+          <div class='col'>
+          <a class="text-dark" href="create-guide.php"><button class="btn btn-dark btn-sm btn-block">Create Guide</button></a>
+        </div>
         </div>
       </div>
     </div>
