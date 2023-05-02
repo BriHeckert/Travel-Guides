@@ -273,6 +273,20 @@ function deleteGuide($g_id){
   $statement->bindValue(':guide', $g_id);
   $statement->execute();
   $statement->closeCursor();
+
+  global $db;
+  $query = "DELETE from recently_viewed where g_id=:guide";
+  $statement = $db->prepare($query);
+  $statement->bindValue(':guide', $g_id);
+  $statement->execute();
+  $statement->closeCursor();
+
+  global $db;
+  $query = "DELETE from user_saved where g_id=:guide";
+  $statement = $db->prepare($query);
+  $statement->bindValue(':guide', $g_id);
+  $statement->execute();
+  $statement->closeCursor();
 }
 
 function deleteActivity($act_id){

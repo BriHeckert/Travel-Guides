@@ -30,11 +30,13 @@
      // Format my guides table
     $myGuidesDisplay = "
     <table class='table table-striped table-hover table-bordered'>
+    <h4 class='text-start font-weight-bold'>$firstName's Guides:</h4>
       <tr>
         <th>Guide</th>
         <th>Description</th>
         <th>Date Created</th>
-        <th>Edit your Guide</th>
+        <th>Edit Guide</th>
+        <th>Delete Guide</th>
       </tr>
     ";
   }
@@ -49,7 +51,8 @@
       <td onclick='location.href=`detailed-guide-view.php?gid=$gid`'>$title</td>
       <td onclick='location.href=`detailed-guide-view.php?gid=$gid`'>$desc</td>
       <td onclick='location.href=`detailed-guide-view.php?gid=$gid`'>$date</td>
-      <td><a href=edit-guide.php?gid=$gid class='btn btn-warning'>Edit</a></td>
+      <td><a href=edit-guide.php?gid=$gid class='btn btn-warning col-12'>Edit</a></td>
+      <td><form action='$_SERVER[PHP_SELF]' method='post'><input class='btn btn-danger col-12' type='submit' name='deleteBtn' value='Delete'></input></form></td>
     ";
 
     $myGuidesDisplay = $myGuidesDisplay . $newRow;
@@ -62,6 +65,7 @@
     // Format saved guides
   $savedGuidesDisplay = "
   <table class='table table-striped table-hover table-bordered'>
+  <h4 class='text-start font-weight-bold'>Saved Guides:</h4>
     <tr>
       <th>Guide</th>
       <th>Description</th>
@@ -93,6 +97,7 @@
   if(count($rvGuides) > 0){
     // Format saved guides
   $rvGuidesDisplay = "
+  <h4 class='text-start font-weight-bold'>Recently Viewed Guides:</h4>
   <table class='table table-striped table-hover table-bordered'>
     <tr>
       <th>Guide</th>
@@ -127,6 +132,7 @@
   if(count($followers) > 0){
     // Format 
   $followersDisplay = "
+  <h4 class='text-start font-weight-bold'>Followers:</h4>
   <table class='table table-striped table-hover table-bordered'>
     <tr>
       <th>First Name</th>
@@ -158,6 +164,7 @@
   if(count($following) > 0){
     // Format 
   $followingDisplay = "
+  <h4 class='text-start font-weight-bold'>Following:</h4>
   <table class='table table-striped table-hover table-bordered'>
     <tr>
       <th>First Name</th>
@@ -214,6 +221,10 @@
     if (isset($_POST['followBtn']) && ($_POST['followBtn']) == "Following") {
       $followDisplay = $followingDisplay;
     }
+    if (isset($_POST['deleteBtn'])){
+      deleteGuide($gid);
+      header('Location: profile.php');
+    }
   }
   ?>
 
@@ -262,9 +273,10 @@
         </form>
       </div>
     </div><br>
-    <div class='container text-center' style='overflow-y: scroll; height: 60vh;'>
+    <div class='container text-center' style='overflow-y: scroll;'>
       <?php echo $guidesDisplay?>
-    </div><br>
+    </div>
+    <br>
 
     <div class="container-fluid text-center">
         <form name="toggleFollowForm" action="<?php $_SERVER['PHP_SELF'] ?>" method="post">
@@ -274,7 +286,7 @@
           </div>
         </form>
     </div>
-    <div class='container text-center' style='overflow-y: scroll; height: 60vh;'>
+    <div class='container text-center' style='overflow-y: scroll;'>
       <?php echo $followDisplay?>
     </div>
 </body>
