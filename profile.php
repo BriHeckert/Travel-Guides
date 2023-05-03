@@ -70,6 +70,7 @@
       <th>Guide</th>
       <th>Description</th>
       <th>Date Created</th>
+      <th>Unsave</th>
     </tr>
   ";
   }
@@ -85,6 +86,7 @@
       <td onclick='location.href=`detailed-guide-view.php?gid=$gid`'>$title</td>
       <td onclick='location.href=`detailed-guide-view.php?gid=$gid`'>$desc</td>
       <td onclick='location.href=`detailed-guide-view.php?gid=$gid`'>$date</td>
+      <td><form action='$_SERVER[PHP_SELF]' method='post'><input class='btn btn-warning col-12' type='submit' name='unsaveBtn' value='Unsave'></input><input type='hidden' name='gid_uns' value='$gid'></form></td>
     </tr>
     ";
 
@@ -225,6 +227,10 @@
       deleteGuide($_POST['gid_del']);
       header('Location: profile.php');
     }
+    if (isset($_POST['unsaveBtn'])){
+      unsaveGuide($_SESSION['username'], $_POST['gid_uns']);
+      header('Location: profile.php');
+    }
   }
   ?>
 
@@ -273,6 +279,11 @@
     </div><br>
     <div class='container text-center' style='overflow-y: scroll;'>
       <?php echo $guidesDisplay?>
+    </div>
+    
+    <br>
+    <div class='container'>
+      <hr>
     </div>
     <br>
 

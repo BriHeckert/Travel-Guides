@@ -385,6 +385,16 @@ function saveGuide($username, $guide_id) {
   $statement->closeCursor();
 }
 
+function unsaveGuide($username, $guide_id) {
+  global $db;
+  $query = 'DELETE from user_saved where user_email=? AND g_id=?';
+  $statement = $db->prepare($query);
+  $statement->bindParam(1, $username);
+  $statement->bindParam(2, $guide_id);
+  $statement->execute();
+  $statement->closeCursor();
+}
+
 function addToRecentlyViewed($username, $guide_id, $time) {
   global $db;
   $query = 'INSERT into recently_viewed values (:username, :guide_id, :time)';
