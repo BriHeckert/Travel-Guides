@@ -52,7 +52,7 @@
       <td onclick='location.href=`detailed-guide-view.php?gid=$gid`'>$desc</td>
       <td onclick='location.href=`detailed-guide-view.php?gid=$gid`'>$date</td>
       <td><a href=edit-guide.php?gid=$gid class='btn btn-warning col-12'>Edit</a></td>
-      <td><form action='$_SERVER[PHP_SELF]' method='post'><input class='btn btn-danger col-12' type='submit' name='deleteBtn' value='Delete'></input></form></td>
+      <td><form action='$_SERVER[PHP_SELF]' method='post'><input class='btn btn-danger col-12' type='submit' name='deleteBtn' value='Delete'></input><input type='hidden' name='gid_del' value='$gid'></form></td>
     ";
 
     $myGuidesDisplay = $myGuidesDisplay . $newRow;
@@ -222,7 +222,7 @@
       $followDisplay = $followingDisplay;
     }
     if (isset($_POST['deleteBtn'])){
-      deleteGuide($gid);
+      deleteGuide($_POST['gid_del']);
       header('Location: profile.php');
     }
   }
@@ -255,13 +255,11 @@
     <div class="container-fluid text-center">
       <br>
       <h3><?php echo $firstName?> <?php echo $lastName?></h2>
-      <p><?php echo $bio?></p>
+      <p><b>Bio:</b> <?php echo $bio?></p>
       <div class="container-fluid text-center">
         <a href="edit-profile.php" class="btn btn-info" role="button">Edit Profile</a>
       </div><br>
-        <form action="<?php $_SERVER['PHP_SELF'] ?>" method="post">
-          <input type="submit" class="btn btn-danger" name="logOutBtn" value="Log Out"></input>
-        </form>
+        
       <br>
       <div class="container-fluid text-center">
         <form name="toggleForm" action="<?php $_SERVER['PHP_SELF'] ?>" method="post">
@@ -289,4 +287,10 @@
     <div class='container text-center' style='overflow-y: scroll;'>
       <?php echo $followDisplay?>
     </div>
+    <br>
+    <form action="<?php $_SERVER['PHP_SELF'] ?>" method="post">
+    <center>
+      <input type="submit" class="btn btn-danger" name="logOutBtn" value="Log Out"></input>
+    </center>
+    </form>
 </body>
