@@ -17,7 +17,7 @@
   }
 
   $firstName = getName($_SESSION['username']);
-  $gid = $_GET['gid'];
+  $gid = trim($_GET['gid']);
   $guide = getGuideDetails($gid);
   $old_title = $guide['title'];
   $old_days = $guide['duration'];
@@ -29,19 +29,23 @@
 
   if ($_SERVER['REQUEST_METHOD'] == 'POST'){
     if (isset($_POST["publishBtn"]) && $guide['user_email'] == $_SESSION['username']) {
+      echo $gid ."\n";
       $title = trim($_POST['gtitle']);
+      echo $title ."\n";
       $city = $_POST['gcity'];
       $state = $_POST['gstate'];
       $location = $city . ", " . $state;
-      $desc = $_POST['gdescription'];
+      echo $location ."\n";
+      $desc = trim($_POST['gdescription']);
+      echo $desc ."\n";
       $today = date("Y-m-d");
-      editGuide($gid, $title, $today, $desc, $location, $old_days, $_SESSION['username']);
+      echo editGuide($gid, $_POST['gtitle'], $today, $_POST['gdescription'], $location, $old_days, $_SESSION['username']);
       foreach($activities as $activity){
-        $actTitle = trim($_POST['title']);
+        $actTitle = $_POST['title'];
         $actTitle = str_replace("'", '', $actTitle);
-        $actDesc = trim($_POST['description']);
+        $actDesc = $_POST['description'];
         $actDesc = str_replace("'", '', $actDesc);
-        $actAddy = trim($_POST['address']);
+        $actAddy = $_POST['address'];
         $actAddy = str_replace("'", '', $actAddy);
         editActivity($activity['act_id'], $actTitle, $actDesc, $actAddy);
       header('Location: detailed-guide-view.php?gid='.$gid);
@@ -115,16 +119,16 @@
     <form action="<?php $_SERVER['PHP_SELF'] ?>" method="post">
         <div class="form-group row p-4">
             <div class='form-group col-10'>
-                <input type="text" class="form-control" placeholder="Title" id="titleInput" name="gtitle" value='<?php echo $old_title?>' required>
+                <input type="text" class="form-control" placeholder="<?php echo $old_title?>" name="gtitle" required>
             </div>
             <div class='form-group col-2'>
-                <input type="number" class="form-control" placeholder="# of Days" id="daysInput" name="gdays" min="1" value='<?php echo $old_days?>' required>
+                <input type="number" class="form-control" placeholder='<?php echo $old_days?>' name="gdays" value='<?php echo $old_days?>' min="1" required>
             </div>
         </div>
         <div class="form-group row p-4">
                 <p>Location:</p>
                 <div class="form-group col">
-                    <input type="text" class="form-control" placeholder="City" value='<?php echo $old_city?>' name="gcity" required>
+                    <input type="text" class="form-control" placeholder='<?php echo $old_city?>' name="gcity" required>
                 </div>
                 <div class="form-group col">
                     <select class="custom-select custom-select-lg mb-3 form-control" name="gstate" required>
@@ -184,13 +188,13 @@
                 </div>
         </div>
         <div class="form-group p-4">
-            <textarea type="text" class="form-control" placeholder="Description" id="descInput" name="gdescription" required><?php echo $old_desc?></textarea>
+            <textarea type="text" class="form-control" placeholder="<?php echo $old_desc?>" name="gdescription" required></textarea>
         </div>
         <div class="text-center p-2">
         <h4 class="text-center">Editing Activities for "<?php echo $old_title?>"</h4>
         <?php echo $activityDisplay?>
         <input type="submit" class="btn btn-success btn-block" name="publishBtn" value="Publish Changes"></input>
-    </div>
+        </div>
     </form>
     <br>
   </div>

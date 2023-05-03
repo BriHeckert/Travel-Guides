@@ -58,7 +58,7 @@
       $title = $currentGuide['title'];
       $desc = $currentGuide['description'];
       $loc = $currentGuide['location'];
-      $date = $currentGuide['date'];
+      $date = $currentGuide['g_date'];
       $gid = $currentGuide['g_id'];
       $newRow = "
       <tr>

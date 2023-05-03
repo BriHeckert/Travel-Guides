@@ -30,7 +30,7 @@
   $comments = getComments($gid);
 
   $title = $guide['title'];
-  $date = $guide['date'];
+  $date = $guide['g_date'];
   $description = $guide['description'];
   $location = $guide['location'];
   $duration = $guide['duration'];

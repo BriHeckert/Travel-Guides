@@ -38,7 +38,7 @@ function guidv4($data = null) {
   $gid = $_SESSION['g_id'];
   $g_title = $_SESSION['g_title'];
   $g_today = $_SESSION['g_date'];
-  $g_desc = $_SESSION['g_desc'];
+  $g_desc = trim($_SESSION['g_desc']);
   $g_location = $_SESSION['g_loc'];
   $g_days = $_SESSION['g_dur'];
   

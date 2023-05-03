@@ -221,11 +221,11 @@ function getGuideActivities($gid) {
 
 function createGuide($g_id, $title, $date, $description, $location, $duration, $user_email){
   global $db;
-  $query = "INSERT into guides values (:g_id, :title, :date, :description, :location, :duration, :user_email)";
+  $query = "insert into guides values (:g_id, :title, :g_date, :description, :location, :duration, :user_email)";
   $statement = $db->prepare($query);
   $statement->bindValue(':g_id', $g_id);
   $statement->bindValue(':title', $title);
-  $statement->bindValue(':date', $date);
+  $statement->bindValue(':g_date', $date);
   $statement->bindValue(':description', $description);
   $statement->bindValue(':location', $location);
   $statement->bindValue(':duration', $duration);
@@ -435,17 +435,41 @@ function getFollowing($username) {
 
 function editGuide($gid, $new_title, $new_date, $new_description, $new_location, $new_duration, $email){
   global $db;
-  $query = "update guides set title=:new_title, date=:new_date, description=:new_description, location=:new_location, duration=:new_duration, user_email=:email where g_id=:gid";
+  // $query = "UPDATE guides set title=$new_title, \n date=$new_date, \n description=$new_description, \n location=$new_location, \n duration=$new_duration, \n user_email=$email where g_id=$gid";
+  $query = "UPDATE guides set title=:new_title where g_id=:gid";
   $statement = $db->prepare($query);
   $statement->bindValue(':new_title', $new_title);
+  $statement->bindValue(':gid', $gid);
+  $statement->execute();
+	$statement->closeCursor();
+
+  $query = "update guides set g_date=:new_date where g_id=:gid";
+  $statement = $db->prepare($query);
+  $statement->bindValue(':gid', $gid);
   $statement->bindValue(':new_date', $new_date);
+  $statement->execute();
+	$statement->closeCursor();
+
+  $query = "UPDATE guides set description=:new_description where g_id=:gid";
+  $statement = $db->prepare($query);
+  $statement->bindValue(':gid', $gid);
   $statement->bindValue(':new_description', $new_description);
+  $statement->execute();
+	$statement->closeCursor();
+
+  $query = "UPDATE guides set location=:new_location where g_id=:gid";
+  $statement = $db->prepare($query);
+  $statement->bindValue(':gid', $gid);
   $statement->bindValue(':new_location', $new_location);
-  $statement->bindValue(':email', $email);
+  $statement->execute();
+	$statement->closeCursor();
+
+  $query = "UPDATE guides set duration=:new_duration where g_id=:gid";
+  $statement = $db->prepare($query);
   $statement->bindValue(':gid', $gid);
   $statement->bindValue(':new_duration', $new_duration);
   $statement->execute();
-  $statement->closeCursor();
+	$statement->closeCursor();
 }
 
 function editActivity($aid, $new_title, $new_description, $new_address){
