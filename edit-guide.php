@@ -29,31 +29,30 @@
 
   if ($_SERVER['REQUEST_METHOD'] == 'POST'){
     if (isset($_POST["publishBtn"]) && $guide['user_email'] == $_SESSION['username']) {
-      echo $gid ."\n";
       $title = trim($_POST['gtitle']);
-      echo $title ."\n";
       $city = $_POST['gcity'];
       $state = $_POST['gstate'];
       $location = $city . ", " . $state;
-      echo $location ."\n";
       $desc = trim($_POST['gdescription']);
-      echo $desc ."\n";
       $today = date("Y-m-d");
-      echo editGuide($gid, $_POST['gtitle'], $today, $_POST['gdescription'], $location, $old_days, $_SESSION['username']);
+      editGuide($gid, $title, $today, $desc, $location, $old_days, trim($_SESSION['username']));
+      $count = 0;
       foreach($activities as $activity){
-        $actTitle = $_POST['title'];
+        $actTitle = $_POST['title'.$count];
         $actTitle = str_replace("'", '', $actTitle);
-        $actDesc = $_POST['description'];
+        $actDesc = $_POST['description'.$count];
         $actDesc = str_replace("'", '', $actDesc);
-        $actAddy = $_POST['address'];
+        $actAddy = $_POST['address'.$count];
         $actAddy = str_replace("'", '', $actAddy);
         editActivity($activity['act_id'], $actTitle, $actDesc, $actAddy);
+        $count = $count + 1;
       header('Location: detailed-guide-view.php?gid='.$gid);
       }
     } 
   }
   $activityDisplay = "";
 
+  $count = 0;
   foreach($activities as $activity){
     $actTitle = trim($activity['title']);
     $actTitle = str_replace("'", '', $actTitle);
@@ -64,19 +63,20 @@
     $newCard = "
             <div class='form-group p-3'>
                 <label for='titleInput'>Name of Activity / Title</label>
-                <input type='text' class='form-control' placeholder='Activity' id='titleInput' name='title' value='$actTitle'>
+                <input type='text' class='form-control' placeholder='Activity' id='titleInput' name='title$count>' value='$actTitle'>
             </div>
             <div class='form-group p-3'>
                 <label for='addressInput'>Address</label>
-                <input type='text' class='form-control' placeholder='Address or Location Description - whatever makes sense and would be helpful for finding the activity :)' name='address' id='activityInput' value='$actAddy'>
+                <input type='text' class='form-control' placeholder='Address or Location Description - whatever makes sense and would be helpful for finding the activity :)' name='address$count' id='activityInput' value='$actAddy'>
             </div>
             <div class='form-group p-3'>
                 <label for='descInput'>Description</label>
-                <textarea type='text' class='form-control' placeholder='Description' id='descInput' name='description'>$actDesc</textarea>
+                <textarea type='text' class='form-control' placeholder='Description' id='descInput' name='description$count'>$actDesc</textarea>
             </div>
       <br>
     ";
     $activityDisplay = $activityDisplay . $newCard;
+    $count = $count + 1;
   };
 
   ?>
@@ -119,7 +119,7 @@
     <form action="<?php $_SERVER['PHP_SELF'] ?>" method="post">
         <div class="form-group row p-4">
             <div class='form-group col-10'>
-                <input type="text" class="form-control" placeholder="<?php echo $old_title?>" name="gtitle" required>
+                <input type="text" class="form-control" placeholder="Title" name="gtitle" value="<?php echo $old_title?>" required>
             </div>
             <div class='form-group col-2'>
                 <input type="number" class="form-control" placeholder='<?php echo $old_days?>' name="gdays" value='<?php echo $old_days?>' min="1" required>
@@ -128,7 +128,7 @@
         <div class="form-group row p-4">
                 <p>Location:</p>
                 <div class="form-group col">
-                    <input type="text" class="form-control" placeholder='<?php echo $old_city?>' name="gcity" required>
+                    <input type="text" class="form-control" placeholder='City' name="gcity" value='<?php echo $old_city?>' required>
                 </div>
                 <div class="form-group col">
                     <select class="custom-select custom-select-lg mb-3 form-control" name="gstate" required>
@@ -188,7 +188,7 @@
                 </div>
         </div>
         <div class="form-group p-4">
-            <textarea type="text" class="form-control" placeholder="<?php echo $old_desc?>" name="gdescription" required></textarea>
+            <textarea type="text" class="form-control" placeholder="Description" name="gdescription" required><?php echo $old_desc?></textarea>
         </div>
         <div class="text-center p-2">
         <h4 class="text-center">Editing Activities for "<?php echo $old_title?>"</h4>
