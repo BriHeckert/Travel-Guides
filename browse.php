@@ -109,11 +109,14 @@
   </div>
 
   <div class='container'>
-    <table style="width: 80vw">
-      <td>
         <form name="searchForm" action="<?php $_SERVER['PHP_SELF'] ?>" method="post">
-          <div class="input-group" style='width: 60vw'>
+          <div class="input-group" style='width: 70vw'>
+          <table style='width: 100vw'>
+            <td>
             <input class="form-control" type="search" placeholder="Search locations by City, State" id="loc" name="loc" aria-label="Search">
+            </td>
+            <td></td>
+            <td>
             <select id='guidelength' name='duration' required>
               <option value='na' selected disabled>Select Duration</option>
               <option value='1'>1 Day</option>
@@ -124,11 +127,15 @@
               <option value='6'>6 Days</option>
               <option value='7'>7 Days</option>
             </select>
+            </td>
+            <td></td>
+            <td>
             <input type="submit" class="btn btn-primary" name="search" value="Search"></input>
-            <input type="submit" class="btn btn-primary" name="clear" value="Clear Filters"></input>
+            <input type="submit" class="btn btn-warning" name="clear" value="Clear Filters"></input>
+            </td>
+          </table>
           </div>
         </form>
-    </table>
   </div>
 
   <?php echo $guideHTML?>
