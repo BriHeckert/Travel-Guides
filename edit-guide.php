@@ -33,9 +33,8 @@
       $city = $_POST['gcity'];
       $state = $_POST['gstate'];
       $location = $city . ", " . $state;
-      $desc = trim($_POST['gdescription']);
       $today = date("Y-m-d");
-      editGuide($gid, $title, $today, $desc, $location, $old_days, trim($_SESSION['username']));
+      editGuide($gid, $title, $today, $location, $old_days, trim($_SESSION['username']));
       $count = 0;
       foreach($activities as $activity){
         $actTitle = $_POST['title'.$count];
@@ -63,7 +62,7 @@
     $newCard = "
             <div class='form-group p-3'>
                 <label for='titleInput'>Name of Activity / Title</label>
-                <input type='text' class='form-control' placeholder='Activity' id='titleInput' name='title$count>' value='$actTitle'>
+                <input type='text' class='form-control' placeholder='Activity' id='titleInput' name='title$count' value='$actTitle'>
             </div>
             <div class='form-group p-3'>
                 <label for='addressInput'>Address</label>
@@ -118,6 +117,7 @@
     <h2 class="text-center"> Edit "<?php echo $old_title?>" Guide</h2>
     <form action="<?php $_SERVER['PHP_SELF'] ?>" method="post">
         <div class="form-group row p-4">
+            <p>Title & Duration:</p>
             <div class='form-group col-10'>
                 <input type="text" class="form-control" placeholder="Title" name="gtitle" value="<?php echo $old_title?>" required>
             </div>
@@ -186,9 +186,6 @@
                         <option value="Wyoming">Wyoming</option>
                     </select>
                 </div>
-        </div>
-        <div class="form-group p-4">
-            <textarea type="text" class="form-control" placeholder="Description" name="gdescription" required><?php echo $old_desc?></textarea>
         </div>
         <div class="text-center p-2">
         <h4 class="text-center">Editing Activities for "<?php echo $old_title?>"</h4>

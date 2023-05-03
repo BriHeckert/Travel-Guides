@@ -443,7 +443,7 @@ function getFollowing($username) {
   return $following;
 }
 
-function editGuide($gid, $new_title, $new_date, $new_description, $new_location, $new_duration, $email){
+function editGuide($gid, $new_title, $new_date, $new_location, $new_duration, $email){
   global $db;
   // $query = "UPDATE guides set title=$new_title, \n date=$new_date, \n description=$new_description, \n location=$new_location, \n duration=$new_duration, \n user_email=$email where g_id=$gid";
   $query = "UPDATE guides set title=:new_title where g_id=:gid";
@@ -453,6 +453,7 @@ function editGuide($gid, $new_title, $new_date, $new_description, $new_location,
   $statement->execute();
 	$statement->closeCursor();
 
+  global $db;
   $query = "update guides set g_date=:new_date where g_id=:gid";
   $statement = $db->prepare($query);
   $statement->bindValue(':gid', $gid);
@@ -460,13 +461,7 @@ function editGuide($gid, $new_title, $new_date, $new_description, $new_location,
   $statement->execute();
 	$statement->closeCursor();
 
-  $query = "UPDATE guides set description=:new_description where g_id=:gid";
-  $statement = $db->prepare($query);
-  $statement->bindValue(':gid', $gid);
-  $statement->bindValue(':new_description', $new_description);
-  $statement->execute();
-	$statement->closeCursor();
-
+  global $db;
   $query = "UPDATE guides set location=:new_location where g_id=:gid";
   $statement = $db->prepare($query);
   $statement->bindValue(':gid', $gid);
@@ -474,6 +469,7 @@ function editGuide($gid, $new_title, $new_date, $new_description, $new_location,
   $statement->execute();
 	$statement->closeCursor();
 
+  global $db;
   $query = "UPDATE guides set duration=:new_duration where g_id=:gid";
   $statement = $db->prepare($query);
   $statement->bindValue(':gid', $gid);
